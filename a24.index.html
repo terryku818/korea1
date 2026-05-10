@@ -1,0 +1,2761 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOREACOIN - 프리미엄 코인 거래 플랫폼</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg-main: #f4f8fc;
+            --bg-soft: #eef4fa;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --line: rgba(148, 163, 184, 0.18);
+            --line-strong: rgba(59, 130, 246, 0.28);
+            --text-main: #0f172a;
+            --text-soft: #64748b;
+            --text-muted: #94a3b8;
+            --blue: #2563eb;
+            --blue-2: #3b82f6;
+            --sky: #0ea5e9;
+            --gold: #f59e0b;
+            --green: #16a34a;
+            --red: #dc2626;
+            --shadow-card: 0 22px 65px rgba(15, 23, 42, 0.08);
+            --shadow-blue: 0 20px 50px rgba(37, 99, 235, 0.18);
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Manrope', 'Noto Sans KR', sans-serif;
+            letter-spacing: -0.025em;
+            background:
+                radial-gradient(circle at 12% 12%, rgba(59,130,246,.09), transparent 28%),
+                radial-gradient(circle at 88% 8%, rgba(14,165,233,.10), transparent 24%),
+                linear-gradient(180deg, #ffffff 0%, #f7fbff 28%, #f3f7fc 100%);
+            color: var(--text-main);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(15,23,42,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15,23,42,0.03) 1px, transparent 1px);
+            background-size: 44px 44px;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,.55), transparent 80%);
+            z-index: -1;
+        }
+
+        .fade-in { animation: fadeIn 0.45s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+        nav {
+            background: rgba(255,255,255,0.88) !important;
+            border-bottom: 1px solid rgba(148,163,184,0.16) !important;
+            box-shadow: 0 12px 40px rgba(15,23,42,0.06) !important;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 48%, #0ea5e9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-mark {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            letter-spacing: -0.05em;
+        }
+        .brand-mark::before {
+            content: '';
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
+            box-shadow: 0 14px 28px rgba(56,189,248,0.25);
+        }
+
+        .ticker-wrap {
+            width: 100%; overflow: hidden;
+            background: rgba(255,255,255,0.86) !important;
+            border-bottom: 1px solid rgba(148,163,184,0.12) !important;
+            box-shadow: inset 0 -1px 0 rgba(15,23,42,.03);
+        }
+        .ticker { display: flex; animation: ticker-scroll 45s linear infinite; }
+        .ticker:hover { animation-play-state: paused; }
+        @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .glass-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.92)) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(148,163,184,.16) !important;
+            box-shadow: var(--shadow-card);
+        }
+        .glass-card:hover { border-color: rgba(59,130,246,.20) !important; }
+
+        .premium-panel {
+            position: relative;
+            isolation: isolate;
+        }
+        .premium-panel::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            z-index: -1;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(59,130,246,.12), rgba(14,165,233,.05), rgba(255,255,255,.4));
+            opacity: 1;
+        }
+
+        .hero-section {
+            position: relative;
+            padding-top: 5.8rem !important;
+            padding-bottom: 4.7rem !important;
+        }
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            left: 50%; top: 0;
+            width: min(980px, 95vw); height: 420px;
+            transform: translateX(-50%);
+            background: radial-gradient(circle, rgba(59,130,246,.10), rgba(14,165,233,.05) 38%, transparent 70%);
+            filter: blur(4px);
+            z-index: -1;
+        }
+
+        .hero-shell {
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero-visual {
+            position: relative;
+            padding: 1.6rem;
+            border-radius: 2rem;
+            background: linear-gradient(180deg, #ffffff, #f5f9ff);
+            border: 1px solid rgba(148,163,184,.18);
+            box-shadow: 0 30px 70px rgba(37,99,235,0.10);
+            overflow: hidden;
+        }
+
+        .hero-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(59,130,246,.12), transparent 26%), radial-gradient(circle at 20% 80%, rgba(14,165,233,.10), transparent 24%);
+            pointer-events: none;
+        }
+
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .58rem .92rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.92);
+            border: 1px solid rgba(59,130,246,.18);
+            color: #2563eb;
+            font-size: .8rem;
+            font-weight: 800;
+            box-shadow: 0 10px 28px rgba(15,23,42,.05);
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .trust-card {
+            text-align: left;
+            padding: 1.15rem;
+            border-radius: 1.25rem;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid rgba(148,163,184,.16);
+            box-shadow: 0 18px 45px rgba(15,23,42,.05);
+        }
+        .trust-card i { color: var(--blue-2); }
+        .trust-card strong { display: block; font-size: 1rem; margin-top: .55rem; color: #0f172a; }
+        .trust-card span { color: var(--text-soft); font-size: .83rem; }
+
+        .feature-stat {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.9rem;
+            margin-top: 1.2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(180deg, #ffffff, #f8fbff);
+            border: 1px solid rgba(148,163,184,.16);
+            border-radius: 1.2rem;
+            padding: 1rem 1.1rem;
+            box-shadow: 0 14px 34px rgba(15,23,42,.05);
+        }
+        .stat-card .num {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #0f172a;
+            margin-bottom: .2rem;
+        }
+        .stat-card .txt {
+            color: var(--text-soft);
+            font-size: .82rem;
+            font-weight: 600;
+        }
+
+        .mini-terminal {
+            margin-top: 1rem;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 1px solid rgba(148,163,184,.16);
+            background: #0f172a;
+            color: #e2e8f0;
+            box-shadow: 0 18px 44px rgba(15,23,42,.18);
+        }
+        .mini-terminal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: .95rem 1rem;
+            background: #111c31;
+            border-bottom: 1px solid rgba(255,255,255,.05);
+        }
+        .mini-terminal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: .8rem;
+            padding: 1rem;
+        }
+        .mini-coin {
+            border-radius: 1rem;
+            padding: .95rem;
+            background: rgba(255,255,255,.04);
+            border: 1px solid rgba(255,255,255,.06);
+        }
+        .mini-coin small { color: #94a3b8; display:block; }
+        .mini-coin strong { font-size: 1rem; display:block; margin-top: .3rem; }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            color: #2563eb;
+            background: rgba(37,99,235,.08);
+            border: 1px solid rgba(59,130,246,.12);
+            padding: .45rem .75rem;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: .82rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            color: #0f172a;
+            margin-bottom: .85rem;
+        }
+        .section-desc {
+            color: var(--text-soft);
+            max-width: 42rem;
+        }
+
+        .bright-panel {
+            background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(244,248,252,.96));
+            border: 1px solid rgba(148,163,184,.16);
+            border-radius: 1.8rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .service-grid, .process-grid, .coin-grid, .faq-grid {
+            display: grid;
+            gap: 1.25rem;
+        }
+        .service-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .process-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .coin-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .faq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+        .info-card {
+            background: rgba(255,255,255,.96);
+            border: 1px solid rgba(148,163,184,.16);
+            border-radius: 1.4rem;
+            padding: 1.4rem;
+            box-shadow: 0 18px 40px rgba(15,23,42,.05);
+        }
+        .info-card .icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, rgba(37,99,235,.12), rgba(14,165,233,.12));
+            color: #2563eb;
+            font-size: 1.25rem;
+        }
+        .info-card h4 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: .45rem;
+        }
+        .info-card p { color: var(--text-soft); font-size: .92rem; line-height: 1.6; }
+
+        .process-step {
+            position: relative;
+            padding: 1.4rem;
+            background: rgba(255,255,255,.96);
+            border: 1px solid rgba(148,163,184,.16);
+            border-radius: 1.4rem;
+            box-shadow: 0 18px 40px rgba(15,23,42,.05);
+        }
+        .process-step .step-no {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px; height: 38px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
+            color: white;
+            font-size: .9rem;
+            font-weight: 900;
+            margin-bottom: .9rem;
+        }
+        .process-step h4 { font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: .4rem; }
+        .process-step p { color: var(--text-soft); font-size: .9rem; line-height: 1.6; }
+
+        .coin-chip {
+            padding: 1.3rem;
+            border-radius: 1.3rem;
+            background: linear-gradient(180deg, #ffffff, #f8fbff);
+            border: 1px solid rgba(148,163,184,.16);
+            box-shadow: 0 16px 34px rgba(15,23,42,.05);
+            text-align: center;
+        }
+        .coin-chip .badge {
+            width: 56px; height: 56px;
+            border-radius: 18px;
+            margin: 0 auto .8rem;
+            background: linear-gradient(135deg, rgba(37,99,235,.15), rgba(14,165,233,.16));
+            color: #2563eb;
+            display:flex; align-items:center; justify-content:center;
+            font-weight: 900;
+            font-size: 1rem;
+        }
+        .coin-chip h4 { font-weight: 800; color: #0f172a; }
+        .coin-chip p { color: var(--text-soft); font-size: .86rem; margin-top: .3rem; }
+
+        .trust-banner {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 1.5rem;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 2rem;
+            background: linear-gradient(135deg, rgba(37,99,235,.06), rgba(14,165,233,.04), rgba(255,255,255,.92));
+            border: 1px solid rgba(148,163,184,.16);
+            box-shadow: var(--shadow-card);
+        }
+
+        .security-meters {
+            display:grid;
+            gap: .9rem;
+        }
+        .meter-box {
+            background: rgba(255,255,255,.9);
+            border: 1px solid rgba(148,163,184,.14);
+            border-radius: 1rem;
+            padding: 1rem;
+        }
+        .meter-top { display:flex; justify-content:space-between; align-items:center; margin-bottom: .55rem; }
+        .meter-bar { height: 10px; border-radius: 999px; background: #e2e8f0; overflow:hidden; }
+        .meter-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #2563eb, #38bdf8); }
+
+        .cta-banner {
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
+            color: white;
+            padding: 2.2rem;
+            border-radius: 2rem;
+            box-shadow: 0 28px 65px rgba(37,99,235,.18);
+        }
+        .cta-banner p { color: rgba(255,255,255,.82); }
+
+        input, select, textarea {
+            background: rgba(255,255,255,0.98) !important;
+            color: #0f172a !important;
+            border: 1px solid rgba(148, 163, 184, 0.20) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+            transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: rgba(59, 130, 246, 0.78) !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, .10), inset 0 1px 0 rgba(255,255,255,.8);
+        }
+        input::placeholder, textarea::placeholder { color: rgba(100,116,139,.72); }
+
+        button, a { -webkit-tap-highlight-color: transparent; }
+        button {
+            position: relative;
+            overflow: hidden;
+            transition: transform .16s ease, filter .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+        }
+        button:active, a:active { transform: scale(0.97); filter: brightness(1.03); }
+        button.bg-blue-600, button[class*="from-green"], #trade-action-btn { box-shadow: var(--shadow-blue); }
+        .btn-click-feedback { box-shadow: 0 0 0 4px rgba(59,130,246,0.22), 0 0 24px rgba(59,130,246,0.18) !important; transform: scale(0.98); }
+        .btn-click-feedback::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.24); pointer-events: none; animation: flashClick .22s ease-out forwards; }
+
+        .admin-action-btn {
+            min-width: 58px;
+            min-height: 34px;
+            touch-action: manipulation;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        .admin-action-btn.processing {
+            opacity: .85;
+            pointer-events: none;
+            transform: scale(.96);
+            box-shadow: 0 0 0 4px rgba(59,130,246,.22), 0 14px 30px rgba(15,23,42,.14) !important;
+        }
+        .admin-action-btn.done-approved {
+            background: #16a34a !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 0 4px rgba(22,163,74,.18) !important;
+        }
+        .admin-action-btn.done-rejected {
+            background: #dc2626 !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 0 4px rgba(220,38,38,.18) !important;
+        }
+        @media (max-width: 768px) {
+            .admin-action-btn {
+                min-width: 72px;
+                min-height: 42px;
+                font-size: .9rem !important;
+                border-radius: .9rem !important;
+                padding: .55rem .85rem !important;
+                margin-top: .25rem;
+            }
+        }
+
+        @keyframes flashClick { from { opacity: 1; } to { opacity: 0; } }
+
+        table { border-collapse: separate; border-spacing: 0; }
+        thead { background: rgba(248,250,252,0.95) !important; }
+        th { letter-spacing: .06em; text-transform: uppercase; color: #64748b !important; }
+        tbody tr { transition: background .16s ease; }
+        tbody tr:hover { background: rgba(241,245,249,0.95) !important; }
+
+        input[type="file"] { display: none; }
+        .file-label {
+            display: block; width: 100%; cursor: pointer;
+            border: 1.6px dashed rgba(148, 163, 184, 0.32);
+            border-radius: 1.1rem; padding: 1.35rem; text-align: center;
+            background: rgba(248,250,252,0.95);
+            transition: all 0.2s;
+        }
+        .file-label:hover { border-color: rgba(59, 130, 246, 0.65); background: rgba(239,246,255,1); transform: translateY(-1px); }
+        .file-label.uploaded { border-color: rgba(34, 197, 94, 0.68); background: rgba(240,253,244,1); pointer-events: auto; }
+        .file-label.uploaded::after {
+            content: '다시 클릭하면 재촬영/재첨부할 수 있습니다';
+            display: block;
+            margin-top: .55rem;
+            color: #16a34a;
+            font-size: .78rem;
+            font-weight: 800;
+        }
+
+        .dash-tab {
+            background: #ffffff !important;
+            color: #0f172a !important;
+            border: 1px solid rgba(148,163,184,.28) !important;
+            box-shadow: 0 10px 28px rgba(15,23,42,.06);
+        }
+        .dash-tab.active {
+            background: linear-gradient(135deg, #2563eb, #0ea5e9) !important;
+            color: #ffffff !important;
+            border-color: rgba(37,99,235,.40) !important;
+            box-shadow: 0 18px 42px rgba(37,99,235,.18);
+        }
+        .dash-content, .dash-content td, .dash-content h3, .dash-content p { color: #0f172a; }
+        .dash-content .text-white { color: #0f172a !important; }
+        .btn-approve, .btn-reject, .btn-primary-white { color: #ffffff !important; }
+        .btn-small-outline { background: #eff6ff !important; color: #2563eb !important; border: 1px solid rgba(37,99,235,.14); }
+        .btn-small-red { background: #fef2f2 !important; color: #dc2626 !important; border: 1px solid rgba(220,38,38,.14); }
+        .btn-small-purple { background: #faf5ff !important; color: #9333ea !important; border: 1px solid rgba(147,51,234,.14); }
+        .reupload-btn {
+            margin-top: .5rem;
+            width: 100%;
+            border-radius: .9rem;
+            padding: .7rem .9rem;
+            background: #ffffff;
+            border: 1px solid rgba(59,130,246,.22);
+            color: #2563eb;
+            font-size: .86rem;
+            font-weight: 900;
+        }
+        .reupload-btn:hover { background: #eff6ff; }
+
+        .success-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.88); backdrop-filter: blur(14px); z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; opacity:0; pointer-events:none; transition: opacity 0.3s; }
+        .success-overlay.active { opacity:1; pointer-events:auto; }
+        @keyframes scaleUp { from { transform: scale(0.5); opacity:0; } to { transform: scale(1); opacity:1; } }
+        .success-icon { animation: scaleUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+        #toast-msg {
+            background: linear-gradient(135deg, #2563eb, #0ea5e9) !important;
+            border: 1px solid rgba(255,255,255,.65);
+            border-radius: 999px !important;
+            box-shadow: 0 22px 55px rgba(37,99,235,.18) !important;
+        }
+
+        .notification-card { background: rgba(240,253,244,0.95); border: 1px solid rgba(34,197,94,0.24); box-shadow: 0 12px 30px rgba(15,23,42,.05); }
+        .notification-card.rejected { background: rgba(254,242,242,0.98); border-color: rgba(239,68,68,0.25); }
+
+        .text-slate-400, .text-slate-500, .text-slate-600 { color: var(--text-soft) !important; }
+        .border-slate-800, .border-slate-700 { border-color: rgba(148,163,184,.16) !important; }
+        .bg-slate-900\/50, .bg-\[\#0b0f19\], .bg-slate-800\/80 { background: rgba(248,250,252,.98) !important; color: #0f172a !important; }
+        .divide-slate-800\/50 > :not([hidden]) ~ :not([hidden]) { border-color: rgba(148,163,184,.12) !important; }
+
+        /* Thin & refined typography refresh */
+        .font-black { font-weight: 700 !important; }
+        .font-bold { font-weight: 500 !important; }
+        .font-semibold { font-weight: 500 !important; }
+        strong { font-weight: 600; }
+        h1, h2, h3, h4 { letter-spacing: -0.03em; }
+        .section-title, .stat-card .num, .info-card h4, .process-step h4, .coin-chip h4 { font-weight: 700 !important; }
+        .market-price { color: #14213d; font-size: 1.05rem; font-weight: 600; }
+        .coin-badge-soft {
+            width: 3.2rem; height: 3.2rem; border-radius: 999px;
+            background: linear-gradient(180deg, #ffffff, #f8fbff);
+            border: 1px solid rgba(148,163,184,.18);
+            display: inline-flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 22px rgba(59,130,246,.08);
+        }
+        .coin-badge-soft img {
+            width: 2rem; height: 2rem; object-fit: contain;
+        }
+        .ticker-coin-chip {
+            width: 1.9rem; height: 1.9rem; border-radius: 999px;
+            background: linear-gradient(180deg, #ffffff, #f5f9ff);
+            border: 1px solid rgba(148,163,184,.18);
+            display: inline-flex; align-items: center; justify-content: center;
+            box-shadow: 0 6px 14px rgba(59,130,246,.06);
+        }
+        .ticker-coin-chip img {
+            width: 1.15rem; height: 1.15rem; object-fit: contain;
+        }
+        .ticker-symbol-text { font-weight: 500; color: #30415e; }
+        .market-coin-name { font-weight: 600; color: #24324a; font-size: 1rem; }
+        .market-coin-market { font-size: .82rem; color: #8b9ab3; font-weight: 500; }
+        .market-trade-btn { font-weight: 500 !important; }
+        .upload-hint-ok { color: #2563eb; font-size: .78rem; margin-top: .45rem; }
+
+        .btn-spinner {
+            display: inline-block;
+            width: 1.05rem;
+            height: 1.05rem;
+            border: 2px solid rgba(255,255,255,.55);
+            border-top-color: #ffffff;
+            border-radius: 999px;
+            animation: spin .7s linear infinite;
+            vertical-align: -0.15rem;
+            margin-right: .45rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .submit-pressed {
+            transform: scale(.98);
+            filter: brightness(1.04);
+            box-shadow: 0 0 0 5px rgba(34,197,94,.18), 0 18px 38px rgba(34,197,94,.22) !important;
+        }
+
+        .wallet-address-box {
+            max-width: 360px;
+            min-width: 260px;
+            padding: .8rem .9rem;
+            border-radius: .95rem;
+            background: #f8fbff;
+            border: 1px solid rgba(59,130,246,.14);
+            color: #1e293b;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: .78rem;
+            line-height: 1.45;
+            word-break: break-all;
+            white-space: normal;
+        }
+        .wallet-copy-btn {
+            margin-top: .45rem;
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            padding: .42rem .7rem;
+            border-radius: .75rem;
+            background: #eaf4ff;
+            color: #2563eb;
+            border: 1px solid rgba(37,99,235,.12);
+            font-size: .75rem;
+            font-weight: 600;
+        }
+        .wallet-copy-btn:hover { background: #dbeafe; }
+
+        /* AI 상담 / 텔레그램 운영 패널 */
+        .ai-chat-float {
+            position: fixed;
+            right: 1.25rem;
+            bottom: 1.25rem;
+            z-index: 80;
+        }
+        .ai-chat-button {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
+            color: white;
+            box-shadow: 0 20px 45px rgba(37,99,235,.25);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size: 1.45rem;
+        }
+        .ai-chat-panel {
+            position: fixed;
+            right: 1.25rem;
+            bottom: 6rem;
+            width: min(390px, calc(100vw - 2rem));
+            height: 540px;
+            background: rgba(255,255,255,.98);
+            border: 1px solid rgba(148,163,184,.18);
+            border-radius: 1.5rem;
+            box-shadow: 0 28px 70px rgba(15,23,42,.18);
+            overflow: hidden;
+            z-index: 90;
+            display: none;
+        }
+        .ai-chat-panel.active { display: flex; flex-direction: column; }
+        .ai-chat-head {
+            padding: 1rem;
+            background: linear-gradient(135deg, #2563eb, #0ea5e9);
+            color: white;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+        }
+        .ai-chat-body {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #f8fbff;
+        }
+        .ai-msg {
+            max-width: 88%;
+            padding: .75rem .9rem;
+            border-radius: 1rem;
+            margin-bottom: .65rem;
+            font-size: .9rem;
+            line-height: 1.55;
+            white-space: pre-wrap;
+        }
+        .ai-msg.bot { background: white; border: 1px solid rgba(148,163,184,.16); color:#24324a; }
+        .ai-msg.user { margin-left:auto; background: #2563eb; color:white; }
+        .ai-chat-input { padding: .85rem; border-top: 1px solid rgba(148,163,184,.15); background: white; display:flex; gap:.5rem; }
+        .ai-guide-card {
+            background: linear-gradient(180deg, #ffffff, #f8fbff);
+            border: 1px solid rgba(148,163,184,.16);
+            border-radius: 1.25rem;
+            padding: 1rem;
+        }
+        .telegram-status-dot { width:.65rem; height:.65rem; border-radius:999px; display:inline-block; background:#22c55e; }
+        @media (max-width: 768px) {
+            .ai-chat-float { right: 1rem; bottom: 1rem; }
+            .ai-chat-panel { right: 1rem; bottom: 5.5rem; height: 520px; }
+        }
+
+        footer.site-footer {
+            margin-top: 2rem;
+            border-top: 1px solid rgba(148,163,184,.14);
+            background: rgba(255,255,255,.7);
+            backdrop-filter: blur(8px);
+        }
+
+
+        #market-table-body .text-white { color: #ffffff !important; }
+        #market-table-body td { color: #0f172a; }
+        #market-table-body button { box-shadow: none; }
+
+        @media (max-width: 1024px) {
+            .hero-shell, .trust-banner { grid-template-columns: 1fr; }
+            .service-grid { grid-template-columns: 1fr 1fr; }
+            .process-grid { grid-template-columns: 1fr 1fr; }
+            .coin-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .trust-grid, .service-grid, .process-grid, .coin-grid, .faq-grid, .feature-stat { grid-template-columns: 1fr; }
+            .hero-section { padding-top: 4rem !important; }
+            .section-title { font-size: 1.8rem; }
+        }
+
+
+        /* v8: softer typography and coin symbol badges */
+        h1, h2, h3, h4, .section-title { color: #111827; }
+        .section-title { font-weight: 800; }
+        .market-coin-name { font-weight: 600; color: #24324a; letter-spacing: -0.02em; }
+        .market-price { font-weight: 700; color: #111827; font-size: 1.08rem; }
+        .coin-symbol-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 30% 20%, #334155, #0f172a);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.05rem;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, .16);
+        }
+        .coin-symbol-badge.btc { background: linear-gradient(135deg, #f59e0b, #f97316); }
+        .coin-symbol-badge.eth { background: linear-gradient(135deg, #64748b, #111827); }
+        .coin-symbol-badge.usdt { background: linear-gradient(135deg, #10b981, #047857); }
+        .coin-symbol-badge.xrp { background: linear-gradient(135deg, #111827, #334155); }
+        .coin-symbol-badge.sol { background: linear-gradient(135deg, #7c3aed, #06b6d4); }
+        .coin-symbol-badge.doge { background: linear-gradient(135deg, #ca8a04, #854d0e); }
+        .coin-symbol-badge.ada { background: linear-gradient(135deg, #2563eb, #1e40af); }
+        .coin-symbol-badge.avax { background: linear-gradient(135deg, #dc2626, #991b1b); }
+        .coin-symbol-badge.dot { background: linear-gradient(135deg, #db2777, #831843); }
+        .coin-symbol-badge.link { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+        .revenue-card {
+            background: linear-gradient(180deg, #ffffff, #f8fbff);
+            border: 1px solid rgba(148,163,184,.16);
+            border-radius: 1.25rem;
+            padding: 1.2rem;
+            box-shadow: 0 12px 30px rgba(15,23,42,.04);
+        }
+        .revenue-label { color: #64748b; font-size: .84rem; font-weight: 700; }
+        .revenue-value { color: #111827; font-size: 1.65rem; font-weight: 800; letter-spacing: -0.04em; }
+
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Success Overlay -->
+    <div id="success-overlay" class="success-overlay">
+        <div class="success-icon text-green-400 text-8xl mb-6"><i class="fas fa-check-circle"></i></div>
+        <h2 id="success-title" class="text-4xl font-black mb-3 text-white">신청 완료</h2>
+        <p id="success-message" class="text-slate-400 text-lg mb-8">관리자 승인 후 신속하게 진행됩니다.</p>
+        <p class="text-slate-500 text-sm">잠시 후 메인화면으로 이동합니다...</p>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast-msg" class="fixed top-24 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-6 py-3 rounded-lg shadow-2xl font-bold z-[100] transition-opacity opacity-0 pointer-events-none">저장 완료</div>
+
+    <nav class="bg-[#0b0f19]/90 backdrop-blur-md p-4 shadow-lg flex justify-between items-center z-50 sticky top-0 border-b border-slate-800/50">
+        <h1 onclick="showView('home')" class="brand-mark text-2xl font-semibold gradient-text cursor-pointer">KOREACOIN</h1>
+        <div id="nav-auth" class="flex gap-3">
+            <button type="button" onclick="showView('login')" class="text-sm hover:text-blue-600 transition px-3 py-2 text-slate-600 font-semibold">관리자 로그인</button>
+            <button type="button" onclick="startTrade(currentTradeType)" class="bg-blue-600 hover:bg-blue-700 px-5 py-2.5 rounded-full font-bold text-sm transition shadow-lg shadow-blue-500/20">회원가입 및 거래</button>
+        </div>
+        <div id="nav-user" class="hidden flex items-center gap-4">
+            <span id="user-role-badge" class="text-xs font-bold px-3 py-1 rounded-full"></span>
+            <button type="button" onclick="showView('dashboard')" class="text-sm hover:text-blue-600 transition px-3 py-2 font-semibold text-slate-700">대시보드</button>
+            <button type="button" onclick="logout()" class="text-sm text-red-500 hover:text-red-600 transition font-semibold">로그아웃</button>
+        </div>
+    </nav>
+
+    <div class="ticker-wrap py-2 z-40">
+        <div class="ticker" id="crypto-ticker"></div>
+    </div>
+
+    <div id="customer-notification-area" class="hidden max-w-3xl mx-auto w-full px-6 pt-4"></div>
+
+    <main class="flex-1 relative overflow-y-auto pb-20">
+        
+        <!-- 1. Home View (Bright Coinhost-inspired Style) -->
+        <div id="view-home" class="view-section fade-in">
+            <section class="hero-section max-w-7xl mx-auto px-6">
+                <div class="hero-shell">
+                    <div>
+                        <div class="trust-badge mb-6"><i class="fas fa-circle-check"></i> 안전하고 빠른 코인 구매대행 플랫폼</div>
+                        <h2 class="text-5xl md:text-7xl font-semibold mb-6 leading-tight tracking-[-0.06em] text-slate-900">복잡한 코인 거래를<br><span class="gradient-text">더 밝고 쉽게</span> 시작하세요</h2>
+                        <p class="text-slate-500 text-lg md:text-xl mb-8 max-w-2xl leading-relaxed">KOREACOIN은 실시간 시세, 본인인증 접수, 승인/거절 알림, 파트너 관리 기능을 갖춘 프리미엄 코인 거래 접수 플랫폼입니다. 빠르고 신뢰감 있는 흐름으로 고객 상담부터 신청 처리까지 연결합니다.</p>
+                        <div class="flex flex-col sm:flex-row gap-3 mb-6">
+                            <button type="button" onclick="startTrade(currentTradeType)" class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-full font-black text-lg transition shadow-2xl">코인 구매 신청하기 <i class="fas fa-arrow-right ml-2"></i></button>
+                            <a href="#market-area" class="bg-white hover:bg-slate-50 px-10 py-4 rounded-full font-black text-lg transition border border-slate-200 text-slate-900 text-center">실시간 시세 보기</a>
+                        </div>
+                        <div class="trust-grid">
+                            <div class="trust-card"><i class="fas fa-shield-halved text-xl"></i><strong>안전 보장</strong><span>SSL 기반으로 고객 신청 데이터를 안전하게 관리합니다.</span></div>
+                            <div class="trust-card"><i class="fas fa-bolt text-xl"></i><strong>빠른 처리</strong><span>신청 접수 후 관리자 승인 흐름을 간편하게 운영할 수 있습니다.</span></div>
+                            <div class="trust-card"><i class="fas fa-user-check text-xl"></i><strong>본인인증 접수</strong><span>회원가입, 인증샷, 서류 업로드까지 한 번에 진행합니다.</span></div>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <p class="text-sm font-bold text-blue-600">COINHOST STYLE TERMINAL</p>
+                                <h3 class="text-2xl font-semibold text-slate-900 mt-1">실시간 거래 가능</h3>
+                            </div>
+                            <span class="inline-flex items-center gap-2 text-emerald-600 font-bold text-sm"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> LIVE</span>
+                        </div>
+                        <div class="mini-terminal">
+                            <div class="mini-terminal-head">
+                                <strong class="text-white">KOREACOIN Terminal</strong>
+                                <span class="text-emerald-400 text-sm font-bold">BTC 전송 완료 · 방금 전</span>
+                            </div>
+                            <div class="mini-terminal-grid">
+                                <div class="mini-coin"><small>BTC / KRW</small><strong>실시간 시세 연동</strong></div>
+                                <div class="mini-coin"><small>USDT / KRW</small><strong>기준 환율 자동 반영</strong></div>
+                                <div class="mini-coin"><small>XRP</small><strong>빠른 상담 접수</strong></div>
+                                <div class="mini-coin"><small>TRX</small><strong>지갑주소 전송 처리</strong></div>
+                            </div>
+                        </div>
+                        <div class="feature-stat">
+                            <div class="stat-card"><div class="num">50,000+</div><div class="txt">누적 거래건수</div></div>
+                            <div class="stat-card"><div class="num">₩120억+</div><div class="txt">누적 거래금액</div></div>
+                            <div class="stat-card"><div class="num">15,000+</div><div class="txt">누적 이용자수</div></div>
+                            <div class="stat-card"><div class="num">99.9%</div><div class="txt">거래 성공률</div></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="market-area" class="max-w-7xl mx-auto px-6 pb-20">
+                <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+                    <div>
+                        <div class="section-label mb-4"><i class="fas fa-chart-line"></i> Live Market</div>
+                        <h3 class="section-title">실시간 시세</h3>
+                        <p class="section-desc">BTC, ETH, XRP, SOL, DOGE, USDT 등 주요 코인의 현재 가격과 24시간 변동률을 확인하세요.</p>
+                    </div>
+                </div>
+                <div class="glass-card rounded-[1.75rem] overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr>
+                                <th class="p-4 text-xs font-semibold">코인</th>
+                                <th class="p-4 text-xs font-semibold text-right">실시간 시세</th>
+                                <th class="p-4 text-xs font-semibold text-right">24시간 변동</th>
+                                <th class="p-4 text-xs font-semibold text-right">거래</th>
+                            </tr>
+                        </thead>
+                        <tbody id="market-table-body" class="divide-y divide-slate-800/50"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="max-w-7xl mx-auto px-6 pb-20">
+                <div class="grid lg:grid-cols-[1.05fr_.95fr] gap-8 items-start">
+                    <div class="bright-panel p-8">
+                        <div class="section-label mb-4"><i class="fas fa-wand-magic-sparkles"></i> Services</div>
+                        <h3 class="section-title">코인호스트 스타일의 신뢰형 소개 섹션</h3>
+                        <p class="section-desc mb-8">밝은 배경, 선명한 정보 구조, 믿음을 주는 금융 서비스 톤으로 홈 화면을 재구성했습니다.</p>
+                        <div class="service-grid">
+                            <div class="info-card">
+                                <div class="icon"><i class="fas fa-coins"></i></div>
+                                <h4>대표 서비스</h4>
+                                <p>USDT, BTC, XRP, TRX 등 주요 코인의 구매대행 또는 접수 흐름을 빠르게 안내합니다.</p>
+                            </div>
+                            <div class="info-card">
+                                <div class="icon"><i class="fas fa-lock"></i></div>
+                                <h4>보안 안전 보장</h4>
+                                <p>회원가입 정보, 서류 업로드, 고객 알림을 신뢰감 있는 구조로 보여주어 전문성을 높였습니다.</p>
+                            </div>
+                            <div class="info-card">
+                                <div class="icon"><i class="fas fa-gauge-high"></i></div>
+                                <h4>신속한 처리</h4>
+                                <p>관리자/파트너 대시보드에서 신청 상태를 즉시 승인·거절하고 고객에게 알림을 보낼 수 있습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card premium-panel p-8 rounded-[1.9rem] shadow-2xl border border-slate-800">
+                        <div class="flex justify-between items-center mb-6 bg-white p-4 rounded-2xl border border-slate-200">
+                            <span class="text-slate-500 text-sm font-semibold">USDT 실시간 기준가</span>
+                            <span class="font-bold text-blue-600 text-xl" id="current-base-rate">로딩중...</span>
+                        </div>
+                        <div class="flex gap-4 mb-8">
+                            <button type="button" id="tab-buy" onclick="setTradeType('buy')" class="w-1/2 py-3 rounded-2xl font-bold text-lg border-2 border-blue-500 bg-blue-50 text-blue-600 transition">매수 (Buy)</button>
+                            <button type="button" id="tab-sell" onclick="setTradeType('sell')" class="w-1/2 py-3 rounded-2xl font-bold text-lg border-2 border-slate-200 text-slate-500 transition bg-white">매도 (Sell)</button>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl mb-6 text-sm space-y-2 border border-slate-200">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-500">매수 적용 환율</span>
+                                <span class="font-bold text-emerald-600 text-lg" id="calc-buy-rate-display">-</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-500">매도 적용 환율</span>
+                                <span class="font-bold text-red-500 text-lg" id="calc-sell-rate-display">-</span>
+                            </div>
+                        </div>
+                        <div class="space-y-4 mb-6">
+                            <div>
+                                <label class="text-sm text-slate-500 mb-1 block font-semibold">수량 (USDT)</label>
+                                <input type="number" id="trade-amount" value="100" step="10" min="0" class="w-full p-4 rounded-2xl text-xl font-bold" oninput="calculateTrade()">
+                            </div>
+                            <div class="flex justify-center text-slate-400"><i class="fas fa-arrow-down text-xl"></i></div>
+                            <div>
+                                <label class="text-sm text-slate-500 mb-1 block font-semibold">예상 총액 (KRW)</label>
+                                <input type="text" id="trade-total" readonly class="w-full p-4 rounded-2xl text-2xl font-black text-amber-500 bg-white">
+                            </div>
+                        </div>
+                        <button type="button" onclick="executeTrade()" id="trade-action-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-2xl font-bold text-lg transition">USDT 매수 신청하기</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="max-w-7xl mx-auto px-6 pb-20">
+                <div class="bright-panel p-8 md:p-10">
+                    <div class="section-label mb-4"><i class="fas fa-list-check"></i> How It Works</div>
+                    <h3 class="section-title">이용 방법</h3>
+                    <p class="section-desc mb-8">구매 신청부터 코인 수령까지 4단계로 간편하게 이용할 수 있도록 구성했습니다.</p>
+                    <div class="process-grid">
+                        <div class="process-step"><div class="step-no">01</div><h4>구매 신청</h4><p>원하는 거래 방향(매수/매도)과 수량을 선택한 뒤 회원가입을 진행합니다.</p></div>
+                        <div class="process-step"><div class="step-no">02</div><h4>본인인증</h4><p>신분증, 인증샷, 얼굴사진을 업로드하고 지갑주소 및 메모를 입력합니다.</p></div>
+                        <div class="process-step"><div class="step-no">03</div><h4>처리 확인</h4><p>관리자 또는 파트너가 신청 내용을 검토한 뒤 승인/거절 상태를 업데이트합니다.</p></div>
+                        <div class="process-step"><div class="step-no">04</div><h4>코인 수령</h4><p>승인 후 고객은 알림을 확인하고 거래를 이어갈 수 있습니다.</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="max-w-7xl mx-auto px-6 pb-20">
+                <div class="trust-banner">
+                    <div>
+                        <div class="section-label mb-4"><i class="fas fa-shield-heart"></i> Trust & Security</div>
+                        <h3 class="section-title !mb-4">왜 KOREACOIN을 선택해야 할까요?</h3>
+                        <p class="section-desc mb-6">밝은 금융 서비스 스타일을 바탕으로 안전한 거래, 실시간 처리, 투명한 흐름, 상담 접근성을 강조했습니다.</p>
+                        <div class="space-y-4">
+                            <div class="flex gap-3 items-start"><i class="fas fa-check-circle text-blue-600 mt-1"></i><div><strong class="block text-slate-900">안전한 거래</strong><span class="text-slate-500 text-sm">본인인증과 관리자 검토를 결합해 접수 품질을 높입니다.</span></div></div>
+                            <div class="flex gap-3 items-start"><i class="fas fa-check-circle text-blue-600 mt-1"></i><div><strong class="block text-slate-900">실시간 처리</strong><span class="text-slate-500 text-sm">실시간 기준가와 신청 흐름을 연결해 빠르게 대응할 수 있습니다.</span></div></div>
+                            <div class="flex gap-3 items-start"><i class="fas fa-check-circle text-blue-600 mt-1"></i><div><strong class="block text-slate-900">투명한 안내</strong><span class="text-slate-500 text-sm">고객이 어떤 단계를 진행하는지 직관적으로 이해할 수 있습니다.</span></div></div>
+                        </div>
+                    </div>
+                    <div class="security-meters">
+                        <div class="meter-box"><div class="meter-top"><span class="font-bold text-slate-800">보안 등급</span><span class="font-black text-blue-600">최상급</span></div><div class="meter-bar"><div class="meter-fill" style="width:96%"></div></div></div>
+                        <div class="meter-box"><div class="meter-top"><span class="font-bold text-slate-800">SSL 256-bit 암호화</span><span class="font-black text-blue-600">256-bit</span></div><div class="meter-bar"><div class="meter-fill" style="width:98%"></div></div></div>
+                        <div class="meter-box"><div class="meter-top"><span class="font-bold text-slate-800">관리자 승인 시스템</span><span class="font-black text-blue-600">활성화</span></div><div class="meter-bar"><div class="meter-fill" style="width:93%"></div></div></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="max-w-7xl mx-auto px-6 pb-20">
+                <div class="bright-panel p-8 md:p-10">
+                    <div class="section-label mb-4"><i class="fas fa-circle-question"></i> FAQ</div>
+                    <h3 class="section-title">자주 묻는 질문</h3>
+                    <p class="section-desc mb-8">고객이 신뢰하고 신청할 수 있도록 자주 묻는 질문 영역도 밝고 읽기 편한 형태로 강화했습니다.</p>
+                    <div class="faq-grid">
+                        <div class="info-card"><h4>코인 구매대행은 어떻게 진행되나요?</h4><p>첫 화면에서 매수 또는 매도를 선택한 뒤 회원가입과 본인인증을 진행하고, 신청 완료 후 관리자 승인을 기다리면 됩니다.</p></div>
+                        <div class="info-card"><h4>수수료는 어떻게 안내되나요?</h4><p>관리자 대시보드에서 환율 가감을 조정하고 고객 화면에는 적용 환율이 명확하게 표시됩니다.</p></div>
+                        <div class="info-card"><h4>어떤 코인을 메인으로 보여줄 수 있나요?</h4><p>현재 메인 섹션은 USDT, BTC, XRP, TRX를 기준으로 구성했으며 필요하면 더 추가할 수 있습니다.</p></div>
+                        <div class="info-card"><h4>개인정보는 어디에 저장되나요?</h4><p>현재 버전은 localStorage 기반 테스트 구조이며, 실제 운영 시에는 서버와 DB로 이전하는 것을 권장합니다.</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="max-w-7xl mx-auto px-6 pb-16">
+                <div class="cta-banner flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+                    <div>
+                        <h3 class="text-3xl font-semibold mb-2 !text-white">지금 바로 코인 거래를 시작하세요</h3>
+                        <p>복잡한 절차 없이 밝고 믿음가는 화면에서 회원가입과 신청을 시작할 수 있습니다.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                        <button type="button" onclick="startTrade(currentTradeType)" class="bg-white text-blue-700 hover:bg-slate-100 px-8 py-4 rounded-full font-semibold text-lg">구매 신청하기</button>
+                        <button type="button" onclick="showView('login')" class="bg-blue-700/30 hover:bg-blue-700/40 border border-white/25 text-white px-8 py-4 rounded-full font-semibold text-lg">관리자 접속</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- 2. 1단계: 회원가입 -->
+        <div id="view-signup" class="view-section hidden p-6 max-w-lg mx-auto fade-in mt-10">
+            <div class="glass-card premium-panel p-8 rounded-3xl relative overflow-hidden border border-slate-800">
+                <button type="button" onclick="showView('home')" class="text-slate-400 hover:text-white transition mb-6 flex items-center gap-2"><i class="fas fa-arrow-left"></i> 메인으로</button>
+                <h2 class="text-2xl font-bold mb-2 text-center">1단계: 회원가입 (본인인증)</h2>
+                <p class="text-slate-400 text-center mb-4 text-sm">안전한 거래를 위해 본인확인이 필수입니다.</p>
+                <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 text-xs text-slate-600 leading-relaxed mb-6">본 서비스는 합법적인 본인 명의 거래만 지원합니다. 타인 명의, 보이스피싱, 자금세탁, 불법 도박, 사기 관련 자금 거래는 차단될 수 있습니다.</div>
+                
+                <div class="space-y-4 mb-6">
+                    <input type="text" id="signup-name" placeholder="이름" autocomplete="off" class="w-full bg-[#0b0f19] p-3 rounded-lg border border-slate-800 outline-none focus:border-blue-500">
+                    <div class="flex gap-2">
+                        <select id="signup-telecom" class="bg-[#0b0f19] p-3 rounded-lg border border-slate-800 outline-none focus:border-blue-500 w-1/3">
+                            <option value="SKT">SKT</option><option value="KT">KT</option><option value="LGU+">LGU+</option><option value="알뜰폰">알뜰폰</option>
+                        </select>
+                        <input type="tel" id="signup-phone" placeholder="연락처 (-없이)" autocomplete="off" class="w-2/3 bg-[#0b0f19] p-3 rounded-lg border border-slate-800 outline-none focus:border-blue-500">
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="signup-sms" placeholder="인증번호 4자리" maxlength="4" autocomplete="off" class="w-1/2 bg-[#0b0f19] p-3 rounded-lg border border-slate-800 outline-none focus:border-blue-500">
+                        <button type="button" onclick="sendSignupSMS()" class="w-1/2 bg-slate-700 hover:bg-slate-600 p-3 rounded-lg font-bold transition text-sm">SMS 인증요청</button>
+                    </div>
+                    <div id="signup-sms-display" class="hidden bg-blue-50 border border-blue-100 p-3 rounded-lg text-blue-700 text-center text-sm font-medium"></div>
+                    
+                    <select id="signup-bank" class="w-full bg-[#0b0f19] p-3 rounded-lg border border-slate-800 outline-none focus:border-blue-500">
+                        <option value="">입출금 은행 선택</option>
+                        <option value="신한">신한</option><option value="국민">국민</option><option value="하나">하나</option><option value="우리">우리</option><option value="카카오뱅크">카카오뱅크</option><option value="토스뱅크">토스뱅크</option><option value="농협">농협</option><option value="기업">기업</option>
+                    </select>
+                    <input type="text" id="signup-account" placeholder="입출금 계좌번호" autocomplete="off" class="w-full bg-[#0b0f19] p-3 rounded-lg border border-slate-800 outline-none focus:border-blue-500">
+                </div>
+
+                <button type="button" onclick="completeSignup()" class="w-full bg-blue-600 hover:bg-blue-700 p-4 rounded-xl font-bold text-lg transition shadow-lg">본인인증 완료 및 가입</button>
+            </div>
+        </div>
+
+        <!-- 3. 2단계: 구매 신청 -->
+        <div id="view-kyc" class="view-section hidden p-6 max-w-lg mx-auto fade-in mt-10">
+            <div class="glass-card premium-panel p-8 rounded-3xl relative overflow-hidden border border-slate-800">
+                <button type="button" onclick="showView('home')" class="text-slate-400 hover:text-white transition mb-6 flex items-center gap-2"><i class="fas fa-arrow-left"></i> 메인으로</button>
+                <h2 id="kyc-title" class="text-2xl font-bold mb-2 text-center">2단계: 코인 구매 신청</h2>
+                <p id="kyc-subtitle" class="text-slate-400 text-center mb-3 text-sm">서류를 업로드하고 구매 정보를 입력하세요.</p>
+                <p class="upload-hint-ok text-center mb-8">고화질 사진도 자동 최적화됩니다. 신분증과 얼굴이 선명하게 보이도록 촬영해 주세요.</p>
+                
+                <div class="space-y-6 mb-8">
+                    <div>
+                        <label class="text-sm font-bold text-slate-300 mb-2 block">1. 신분증 앞면 <span class="text-red-500">(필수)</span></label>
+                        <label id="label-id-card" class="file-label"><input id="input-id-card" type="file" accept="image/*" onchange="handleFileUpload(this, 'id-card-preview', 'label-id-card')"><i class="fas fa-id-card text-slate-600 text-2xl mb-2"></i><p class="text-slate-500 text-sm">클릭하여 촬영/업로드</p></label>
+                        <img id="id-card-preview" class="mt-2 rounded-lg hidden w-full h-32 object-cover border border-slate-700"><button type="button" id="btn-reset-id-card" onclick="clearFileUpload('input-id-card', 'id-card-preview', 'label-id-card', 'idCard')" class="reupload-btn hidden"><i class="fas fa-rotate-right mr-1"></i>신분증 다시 찍기/첨부</button>
+                    </div>
+
+                    <div>
+                        <label class="text-sm font-bold text-red-400 mb-2 block">2. [필수] 인증샷</label>
+                        <div class="bg-red-900/20 border-2 border-red-800 p-3 rounded-xl mb-2">
+                            <p class="text-red-400 font-bold text-xs text-center">종이 작성 후 촬영: KOREACOIN, 서명, 오늘날짜</p>
+                        </div>
+                        <label id="label-verify-shot" class="file-label border-red-900 hover:border-red-500"><input id="input-verify-shot" type="file" accept="image/*" onchange="handleFileUpload(this, 'verify-shot-preview', 'label-verify-shot')"><i class="fas fa-user-shield text-red-400 text-2xl mb-2"></i><p class="text-slate-500 text-sm">신분증을 든 인증샷 업로드</p></label>
+                        <img id="verify-shot-preview" class="mt-2 rounded-lg hidden w-full h-32 object-cover border border-slate-700"><button type="button" id="btn-reset-verify-shot" onclick="clearFileUpload('input-verify-shot', 'verify-shot-preview', 'label-verify-shot', 'verifyShot')" class="reupload-btn hidden"><i class="fas fa-rotate-right mr-1"></i>인증샷 다시 찍기/첨부</button>
+                    </div>
+
+                    <div>
+                        <label class="text-sm font-bold text-slate-300 mb-2 block">3. 본인 얼굴 사진 (선택)</label>
+                        <label id="label-face" class="file-label"><input id="input-face" type="file" accept="image/*" onchange="handleFileUpload(this, 'face-preview', 'label-face')"><i class="fas fa-portrait text-slate-600 text-2xl mb-2"></i><p class="text-slate-500 text-sm">본인 얼굴 사진 업로드</p></label>
+                        <img id="face-preview" class="mt-2 rounded-lg hidden w-full h-32 object-cover border border-slate-700"><button type="button" id="btn-reset-face" onclick="clearFileUpload('input-face', 'face-preview', 'label-face', 'face')" class="reupload-btn hidden"><i class="fas fa-rotate-right mr-1"></i>얼굴 사진 다시 찍기/첨부</button>
+                    </div>
+
+                    <div class="border-t border-slate-800 pt-6 space-y-4">
+                        <div>
+                            <label id="kyc-amount-label" class="text-sm font-bold text-blue-400 mb-2 block">4. 구매 수량 (USDT)</label>
+                            <input type="number" id="purchase-amount" placeholder="예: 1000" autocomplete="off" class="w-full bg-[#0b0f19] p-3 rounded-lg border border-slate-800 outline-none focus:border-blue-500 font-bold">
+                        </div>
+                        <div>
+                            <label class="text-sm font-bold text-blue-400 mb-2 block">5. 테더 받을 지갑주소 (USDT TRC20)</label>
+                            <input type="text" id="wallet-address" placeholder="T..." autocomplete="off" class="w-full bg-[#0b0f19] p-3 rounded-lg border border-slate-800 outline-none focus:border-blue-500 font-mono text-sm">
+                        </div>
+                        <div>
+                            <label class="text-sm font-bold text-slate-400 mb-2 block">6. 관리자 전달 메모 (선택)</label>
+                            <textarea id="purchase-memo" rows="2" placeholder="요청사항이 있으면 적어주세요." oninput="purchaseMemoDraft = this.value" onchange="purchaseMemoDraft = this.value" class="w-full bg-[#0b0f19] p-3 rounded-lg border border-slate-800 outline-none focus:border-blue-500 text-sm resize-none"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="kyc-submit-btn" type="button" onclick="submitPurchase()" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 p-4 rounded-xl font-bold text-lg transition shadow-lg">구매 신청 완료</button>
+            </div>
+        </div>
+
+        <!-- 4. Login View -->
+        <div id="view-login" class="view-section hidden p-6 max-w-md mx-auto fade-in mt-20">
+            <div class="glass-card premium-panel p-8 rounded-3xl border border-slate-800">
+                <h2 class="text-2xl font-bold mb-6 text-center">관리자 / 파트너 로그인</h2>
+                <input type="text" id="login-id" placeholder="아이디" autocomplete="off" class="w-full bg-[#0b0f19] p-3 rounded-lg mb-4 border border-slate-800 focus:border-blue-500 outline-none">
+                <input type="password" id="login-pw" placeholder="비밀번호" class="w-full bg-[#0b0f19] p-3 rounded-lg mb-6 border border-slate-800 focus:border-blue-500 outline-none">
+                <button type="button" onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded-lg font-bold transition">로그인</button>
+                <div class="mt-4 text-xs text-slate-600 text-center">테스트: admin / 1234 (최고관리자) <br> partner / 1234 (파트너사)</div>
+            </div>
+        </div>
+
+        <!-- 5. Admin Dashboard View -->
+        <div id="view-dashboard" class="view-section hidden p-6 max-w-7xl mx-auto fade-in mt-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div><h2 class="text-3xl font-semibold">관리 대시보드</h2><p class="text-slate-400 text-sm mt-1">실시간 신청 관리 및 서류 확인</p></div>
+                <div class="flex gap-2 flex-wrap">
+                    <button type="button" onclick="switchDashTab('rates')" id="btn-tab-rates" class="dash-tab px-5 py-2 rounded-lg font-semibold text-sm">환율 관리</button>
+                    <button type="button" onclick="switchDashTab('applications')" id="btn-tab-applications" class="dash-tab active px-5 py-2 rounded-lg font-semibold text-sm">신청 관리</button>
+                    <button type="button" onclick="switchDashTab('users')" id="btn-tab-users" class="dash-tab px-5 py-2 rounded-lg font-semibold text-sm">회원 목록</button>
+                    <button type="button" onclick="switchDashTab('revenue')" id="btn-tab-revenue" class="dash-tab px-5 py-2 rounded-lg font-semibold text-sm">수익 분석</button>
+                    <button type="button" onclick="switchDashTab('partners')" id="btn-tab-partners" class="dash-tab px-5 py-2 rounded-lg font-semibold text-sm hidden">파트너 관리</button>
+                    <button type="button" onclick="switchDashTab('ai')" id="btn-tab-ai" class="dash-tab px-5 py-2 rounded-lg font-semibold text-sm">AI 응대 지침</button>
+                </div>
+            </div>
+
+            <div id="dash-rates" class="dash-content hidden">
+                <div class="glass-card premium-panel p-6 rounded-3xl max-w-2xl border border-slate-800">
+                    <h3 class="text-xl font-bold mb-2">파트너사 전용 환율 가감 설정 (USDT/KRW)</h3>
+                    <p class="text-slate-400 text-sm mb-6">실시간 기준 시세: <span id="dash-base-rate" class="text-blue-400 font-bold text-lg">로딩중...</span></p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="text-sm text-green-400 mb-2 block font-bold">고객 매수가 조절 (기준가 + 입력값)</label>
+                            <div class="relative flex items-center"><span class="absolute left-4 text-slate-400 font-bold">+</span><input type="number" id="admin-buy-adjust" step="1" class="w-full bg-[#0b0f19] p-4 pl-8 rounded-lg border border-slate-800 outline-none focus:border-green-500 text-xl font-bold text-right" oninput="updateAppliedRatesUI()"></div>
+                            <p class="text-xs text-green-300 mt-2 font-semibold">고객 적용가: <span id="dash-applied-buy">-</span> KRW</p>
+                        </div>
+                        <div>
+                            <label class="text-sm text-red-400 mb-2 block font-bold">고객 매도가 조절 (기준가 + 입력값)</label>
+                            <div class="relative flex items-center"><span class="absolute left-4 text-slate-400 font-bold">+</span><input type="number" id="admin-sell-adjust" step="1" class="w-full bg-[#0b0f19] p-4 pl-8 rounded-lg border border-slate-800 outline-none focus:border-red-500 text-xl font-bold text-right" oninput="updateAppliedRatesUI()"></div>
+                            <p class="text-xs text-red-300 mt-2 font-semibold">고객 적용가: <span id="dash-applied-sell">-</span> KRW (마이너스는 -입력)</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="saveRates()" class="w-full bg-blue-600 hover:bg-blue-700 p-4 rounded-lg font-bold transition text-lg">환율 저장 및 고객 화면 반영</button>
+                </div>
+            </div>
+
+            <div id="dash-applications" class="dash-content hidden">
+                <div class="glass-card rounded-2xl overflow-hidden border border-slate-800">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-900/50 border-b border-slate-800">
+                                <tr>
+                                    <th class="p-4 text-slate-500 text-xs">이름</th>
+                                    <th class="p-4 text-slate-500 text-xs">연락처</th>
+                                    <th class="p-4 text-slate-500 text-xs">신청시간</th>
+                                    <th class="p-4 text-slate-500 text-xs">거래종류</th>
+                                    <th class="p-4 text-slate-500 text-xs">수량</th>
+                                    <th class="p-4 text-slate-500 text-xs">지갑주소</th>
+                                    <th class="p-4 text-slate-500 text-xs">고객 메모</th>
+                                    <th class="p-4 text-slate-500 text-xs">서류</th>
+                                    <th class="p-4 text-slate-500 text-xs">상태</th>
+                                    <th class="p-4 text-slate-500 text-xs">관리</th>
+                                </tr>
+                            </thead>
+                            <tbody id="kyc-table-body" class="divide-y divide-slate-800/50"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dash-users" class="dash-content hidden">
+                <div class="glass-card rounded-2xl overflow-hidden border border-slate-800">
+                    <div class="p-4 border-b border-slate-800 flex justify-between items-center">
+                        <div>
+                            <h3 class="text-xl font-bold">회원 목록</h3>
+                            <p class="text-slate-400 text-sm">회원가입 신청을 승인 또는 거절할 수 있습니다. 승인된 고객만 매수·매도 신청을 진행할 수 있습니다.</p>
+                        </div>
+                        <span id="users-count" class="text-xs font-bold px-3 py-1 rounded-full bg-blue-500/20 text-blue-400">0명</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-slate-900/50 border-b border-slate-800">
+                                <tr>
+                                    <th class="p-4 text-slate-500 text-xs">가입일</th>
+                                    <th class="p-4 text-slate-500 text-xs">이름</th>
+                                    <th class="p-4 text-slate-500 text-xs">연락처</th>
+                                    <th class="p-4 text-slate-500 text-xs">은행/계좌</th>
+                                    <th class="p-4 text-slate-500 text-xs">회원상태</th>
+                                    <th class="p-4 text-slate-500 text-xs">신청건수</th>
+                                    <th class="p-4 text-slate-500 text-xs">최근 신청상태</th>
+                                    <th class="p-4 text-slate-500 text-xs">회원 관리</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body" class="divide-y divide-slate-800/50"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dash-partners" class="dash-content hidden">
+                <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 mb-6">
+                    <div class="p-5 border-b border-slate-800 flex flex-col lg:flex-row justify-between gap-4 lg:items-center">
+                        <div>
+                            <h3 class="text-xl font-bold">파트너 관리</h3>
+                            <p class="text-slate-400 text-sm mt-1">최고관리자는 파트너 계정을 활성화, 정지, 위험표시, 삭제할 수 있습니다.</p>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 w-full lg:w-auto">
+                            <input id="partner-new-id" type="text" placeholder="파트너 ID" class="p-3 rounded-xl text-sm">
+                            <input id="partner-new-name" type="text" placeholder="파트너명" class="p-3 rounded-xl text-sm">
+                            <input id="partner-new-pw" type="text" placeholder="비밀번호" class="p-3 rounded-xl text-sm">
+                            <button type="button" onclick="addPartner()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-xl font-semibold text-sm">파트너 추가</button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr>
+                                    <th class="p-4 text-slate-500 text-xs">파트너</th>
+                                    <th class="p-4 text-slate-500 text-xs">상태</th>
+                                    <th class="p-4 text-slate-500 text-xs text-right">회원</th>
+                                    <th class="p-4 text-slate-500 text-xs text-right">신청</th>
+                                    <th class="p-4 text-slate-500 text-xs text-right">예상수익</th>
+                                    <th class="p-4 text-slate-500 text-xs">최근활동</th>
+                                    <th class="p-4 text-slate-500 text-xs">관리자 메모</th>
+                                    <th class="p-4 text-slate-500 text-xs">관리</th>
+                                </tr>
+                            </thead>
+                            <tbody id="partners-table-body" class="divide-y divide-slate-800/50"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="glass-card p-5 rounded-2xl border border-slate-800">
+                    <h4 class="text-lg font-semibold mb-3">준법 운영 문구</h4>
+                    <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-slate-700 leading-relaxed">
+                        본 서비스는 합법적인 본인 명의 거래만 지원합니다. 타인 명의 거래, 보이스피싱, 자금세탁, 불법 도박, 사기 관련 자금 거래는 즉시 차단되며 관련 자료는 관계기관 요청 시 제출될 수 있습니다. 파트너의 불법 운영이 확인될 경우 최고관리자는 즉시 계정을 정지 또는 삭제하고 고객·신청·수익 기록을 보존할 수 있습니다.
+                    </div>
+                </div>
+            </div>
+
+            <div id="dash-ai" class="dash-content hidden">
+                <div class="grid lg:grid-cols-[1fr_.85fr] gap-6">
+                    <div class="glass-card rounded-2xl border border-slate-800 p-6">
+                        <div class="flex items-start justify-between gap-4 mb-5">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900">AI 고객응대 지침</h3>
+                                <p class="text-slate-500 text-sm mt-1">파트너사는 고객이 메인 페이지에서 질문했을 때 AI가 어떤 말투와 기준으로 자연스럽게 응대할지 교육할 수 있습니다. 정해진 답변만 반복하지 않고 고객 질문에 맞춰 대화합니다.</p>
+                            </div>
+                            <span class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-600 border border-emerald-100 px-3 py-1 rounded-full text-xs font-semibold"><span class="telegram-status-dot"></span> AI 지침 활성</span>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="text-sm font-semibold text-slate-700 mb-2 block">응대 말투</label>
+                                <select id="ai-tone" class="w-full p-3 rounded-xl">
+                                    <option value="친절하고 전문적인 말투">친절하고 전문적인 말투</option>
+                                    <option value="매우 공손하고 신뢰감 있는 말투">매우 공손하고 신뢰감 있는 말투</option>
+                                    <option value="짧고 빠른 상담형 말투">짧고 빠른 상담형 말투</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-sm font-semibold text-slate-700 mb-2 block">상담 연결 안내</label>
+                                <input id="ai-contact-guide" type="text" class="w-full p-3 rounded-xl" placeholder="예: 자세한 상담은 카카오톡 또는 텔레그램으로 안내">
+                            </div>
+                        </div>
+
+                        <label class="text-sm font-semibold text-slate-700 mb-2 block">파트너 응대 지침</label>
+                        <textarea id="ai-partner-instructions" rows="8" class="w-full p-4 rounded-xl text-sm" placeholder="예: 고객에게 친절하고 자연스럽게 답합니다. 질문 의도를 먼저 이해하고 필요한 절차를 쉽게 설명합니다. 단, 사이트 코드/관리자/운영자/파트너 내부 정보는 답하지 않습니다. 불법 거래, 타인 명의 거래, 보이스피싱 의심 거래는 정중히 거절합니다."></textarea>
+
+                        <label class="text-sm font-semibold text-slate-700 mt-4 mb-2 block">AI 금지 답변 / 주의사항</label>
+                        <textarea id="ai-forbidden-instructions" rows="4" class="w-full p-4 rounded-xl text-sm" placeholder="예: 사이트 코드, 소스, 관리자 구조, 운영자 정보, 파트너 내부 정보, 성적 대화, 욕설, 비하, 해킹, 추적 회피, 자금세탁, 보이스피싱, 수익 보장은 답변하지 않습니다."></textarea>
+
+                        <div class="flex flex-col sm:flex-row gap-3 mt-5">
+                            <button type="button" onclick="saveAIInstructions()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl font-semibold">AI 지침 저장</button>
+                            <button type="button" onclick="testAIInstructionPreview()" class="bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-100 px-5 py-3 rounded-xl font-semibold">예시 답변 보기</button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="ai-guide-card">
+                            <h4 class="font-semibold text-slate-900 mb-2"><i class="fas fa-circle-info text-blue-500 mr-2"></i>파트너사가 쉽게 이해하는 설명</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed">이 화면은 고객상담 직원을 교육하는 것과 같습니다. 파트너가 여기에 적은 지침을 AI가 읽고, 고객 질문에 맞춰 자연스럽게 답변합니다. 다만 금지 주제는 자동으로 차단됩니다.</p>
+                        </div>
+                        <div class="ai-guide-card">
+                            <h4 class="font-semibold text-slate-900 mb-2"><i class="fas fa-robot text-blue-500 mr-2"></i>AI가 할 수 있는 응대</h4>
+                            <ul class="text-sm text-slate-600 space-y-2">
+                                <li>• 회원가입 방법 안내</li>
+                                <li>• 매수/매도 신청 절차 안내</li>
+                                <li>• 지갑주소 입력 주의사항 안내</li>
+                                <li>• 관리자 승인 후 처리 흐름 안내</li>
+                                <li>• 카카오/텔레그램 상담 연결 안내</li>
+                            </ul>
+                        </div>
+                        <div class="ai-guide-card bg-red-50 border-red-100">
+                            <h4 class="font-semibold text-red-700 mb-2"><i class="fas fa-triangle-exclamation mr-2"></i>AI가 하면 안 되는 응대</h4>
+                            <p class="text-sm text-red-600 leading-relaxed">불법 거래, 타인 명의 거래, 자금세탁, 도박자금, 보이스피싱, 추적 회피, 수사 회피, 수익 보장성 문구는 절대 답변하지 않도록 지침에 포함해야 합니다.</p>
+                        </div>
+                        <div id="ai-preview-box" class="ai-guide-card hidden"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dash-revenue" class="dash-content hidden">
+                <div class="glass-card p-6 rounded-2xl border border-slate-800">
+                    <div class="flex flex-col md:flex-row justify-between mb-6 gap-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">파트너사 수익 분석</h3>
+                            <p class="text-slate-500 text-sm mt-1">승인 여부와 관계없이 접수된 매수/매도 신청 기준으로 자동 계산합니다.</p>
+                        </div>
+                        <div class="text-sm text-slate-500 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 font-bold">수익 = 테더 수량 × 파트너 설정 가감 금액</div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="revenue-card"><div class="revenue-label">총 예상 수익</div><div class="revenue-value"><span id="total-revenue">0</span> KRW</div></div>
+                        <div class="revenue-card"><div class="revenue-label">매수 신청 수익</div><div class="revenue-value"><span id="buy-revenue-total">0</span> KRW</div></div>
+                        <div class="revenue-card"><div class="revenue-label">매도 신청 수익</div><div class="revenue-value"><span id="sell-revenue-total">0</span> KRW</div></div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr>
+                                    <th class="p-4 text-slate-500 text-xs">신청시간</th>
+                                    <th class="p-4 text-slate-500 text-xs">고객</th>
+                                    <th class="p-4 text-slate-500 text-xs">거래</th>
+                                    <th class="p-4 text-slate-500 text-xs text-right">USDT</th>
+                                    <th class="p-4 text-slate-500 text-xs text-right">가감 금액</th>
+                                    <th class="p-4 text-slate-500 text-xs text-right">예상 수익</th>
+                                    <th class="p-4 text-slate-500 text-xs">상태</th>
+                                </tr>
+                            </thead>
+                            <tbody id="revenue-log" class="divide-y divide-slate-800/50"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-4 gap-8 text-sm">
+            <div>
+                <div class="brand-mark text-2xl font-semibold gradient-text mb-4">KOREACOIN</div>
+                <p class="text-slate-500 leading-relaxed">안전하고 빠른 코인 구매대행 서비스를 위한 밝은 프리미엄 UI 샘플입니다. 신뢰할 수 있는 상담 흐름과 관리자 운영 화면을 함께 제공합니다.</p>
+            </div>
+            <div>
+                <h4 class="font-black text-slate-900 mb-3">서비스</h4>
+                <ul class="space-y-2 text-slate-500">
+                    <li>코인 구매대행</li>
+                    <li>본인인증 접수</li>
+                    <li>관리자 승인</li>
+                    <li>파트너 운영</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-black text-slate-900 mb-3">고객지원</h4>
+                <ul class="space-y-2 text-slate-500">
+                    <li>공지사항</li>
+                    <li>카카오톡 상담</li>
+                    <li>텔레그램 상담</li>
+                    <li>24시간 접수 가능</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-black text-slate-900 mb-3">고객센터</h4>
+                <ul class="space-y-2 text-slate-500">
+                    <li>운영시간: 24시간</li>
+                    <li>전화: 010-0000-0000</li>
+                    <li>카카오톡: koreacoin</li>
+                    <li>© 2026 KOREACOIN</li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 pb-8 text-xs text-slate-500 leading-relaxed">
+            준법 안내: 본 서비스는 합법적인 본인 명의 거래만 지원합니다. 타인 명의 거래, 보이스피싱, 자금세탁, 불법 도박, 사기 관련 자금 거래는 즉시 차단되며 관련 자료는 관계기관 요청 시 제출될 수 있습니다.
+        </div>
+    </footer>
+
+    <div id="ai-chat-panel" class="ai-chat-panel">
+        <div class="ai-chat-head">
+            <div>
+                <div class="font-semibold">KOREACOIN AI 상담</div>
+                <div class="text-xs opacity-80">사람처럼 친절하게 거래 절차를 안내합니다</div>
+            </div>
+            <button type="button" onclick="toggleAIChat(false)" class="text-white/90 hover:text-white text-xl"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div id="ai-chat-body" class="ai-chat-body">
+            <div class="ai-msg bot">안녕하세요. KOREACOIN AI 상담입니다. 궁금한 점을 편하게 물어보세요. 안전하고 정확한 이용 안내를 도와드리겠습니다.</div>
+        </div>
+        <div class="ai-chat-input">
+            <input id="ai-chat-input" type="text" class="flex-1 p-3 rounded-xl text-sm" placeholder="질문을 입력하세요" onkeydown="if(event.key==='Enter') sendAIChatMessage()">
+            <button type="button" onclick="sendAIChatMessage()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-xl font-semibold">전송</button>
+        </div>
+    </div>
+    <div class="ai-chat-float">
+        <button type="button" onclick="toggleAIChat()" class="ai-chat-button" title="AI 상담"><i class="fas fa-comments"></i></button>
+    </div>
+
+    <div class="fixed bottom-8 left-6 flex flex-col space-y-4 z-40">
+        <a href="https://t.me/" target="_blank" class="bg-[#2AABEE] hover:bg-[#229ED9] text-white p-4 rounded-full shadow-2xl transition transform hover:scale-110"><i class="fab fa-telegram-plane text-2xl"></i></a>
+        <a href="https://pf.kakao.com/" target="_blank" class="bg-[#FEE500] hover:bg-[#E6D800] text-black p-4 rounded-full shadow-2xl transition transform hover:scale-110"><i class="fas fa-comment text-2xl"></i></a>
+    </div>
+
+    <div id="image-modal" class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-6 cursor-pointer" onclick="this.classList.add('hidden')">
+        <img id="modal-image" src="" class="max-w-full max-h-full rounded-lg shadow-2xl border-2 border-slate-600">
+    </div>
+
+    <script>
+        let currentUser = null;
+        let db = JSON.parse(localStorage.getItem('koreacoin_db')) || { users: [], applications: [], revenues: [], notifications: [], partners: [], telegramLogs: [], aiSettings: {}, rates: { buyAdjust: 5, sellAdjust: -5 } };
+        db.users = db.users || [];
+        db.applications = db.applications || [];
+        db.revenues = db.revenues || [];
+        db.notifications = db.notifications || [];
+        db.partners = db.partners || [];
+        db.telegramLogs = db.telegramLogs || [];
+        db.aiSettings = db.aiSettings || {
+            tone: '친절하고 전문적인 말투',
+            contactGuide: '자세한 상담은 카카오톡 또는 텔레그램으로 연결해드릴 수 있습니다.',
+            partnerInstructions: '고객에게 정중하게 인사하고, 회원가입 → 승인 → 매수/매도 신청 → 관리자 확인 순서로 안내합니다. 지갑주소는 고객이 직접 입력한 주소만 사용한다고 설명합니다.',
+            forbiddenInstructions: '불법 거래, 타인 명의 거래, 자금세탁, 도박자금, 보이스피싱, 추적 회피, 수사 회피, 수익 보장성 문구는 절대 안내하지 않습니다.'
+        };
+        db.rates = db.rates || { buyAdjust: 5, sellAdjust: -5 };
+        function ensureDefaultPartners() {
+            const now = new Date().toLocaleString();
+            if(!db.partners.some(p => p.id === 'partner')) {
+                db.partners.push({ id: 'partner', name: '기본 파트너', password: '1234', status: 'ACTIVE', memo: '', createdAt: now, updatedAt: now });
+            }
+            db.users.forEach(u => { if(!u.partnerId) u.partnerId = 'partner'; if(!u.partner) u.partner = getPartnerName(u.partnerId); });
+            db.applications.forEach(a => { if(!a.partnerId) a.partnerId = getUserPartnerId(a.customerId) || 'partner'; });
+        }
+        let currentSmsCode = null; // 로컬 테스트용. 실제 운영에서는 서버가 인증번호를 생성/검증합니다.
+        let smsSessionId = null;
+        let smsRequestSent = false;
+        const SMS_CONFIG = {
+            // 실제 운영에서는 반드시 true로 바꾸고 서버 API를 연결하세요.
+            // true: /api/send-sms, /api/verify-sms 서버 호출
+            // false: HTML 단독 테스트용 개발모드
+            realApiEnabled: false,
+            sendEndpoint: '/api/send-sms',
+            verifyEndpoint: '/api/verify-sms'
+        };
+        const TELEGRAM_CONFIG = {
+            // 실제 운영에서는 true로 변경하고 서버에서 Telegram Bot API를 호출하세요.
+            // Bot Token은 절대 HTML에 넣으면 안 됩니다.
+            realApiEnabled: false,
+            notifyEndpoint: '/api/telegram/notify'
+        };
+        const AI_CONFIG = {
+            // 실제 운영에서는 true로 변경하고 서버에서 자유 대화형 AI + 금지 주제 차단을 처리하세요.
+            // API Key는 절대 HTML에 넣으면 안 됩니다.
+            realApiEnabled: false,
+            chatEndpoint: '/api/ai/chat'
+        };
+        let currentTradeType = 'buy';
+        let pendingTradeType = 'buy';
+        let purchaseMemoDraft = '';
+        let isSubmittingPurchase = false;
+        let liveTickerData = {};
+        let baseUsdtKrw = 0;
+        let currentCustomerId = null;
+        let uploadedFiles = { idCard: false, verifyShot: false };
+
+        function showToast(message) { const toast = document.getElementById('toast-msg'); toast.innerText = message; toast.classList.remove('opacity-0'); toast.classList.add('opacity-100'); setTimeout(() => { toast.classList.remove('opacity-100'); toast.classList.add('opacity-0'); }, 3000); }
+
+        // 모든 버튼 클릭 시 눌림 피드백 표시
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            btn.classList.add('btn-click-feedback');
+            setTimeout(() => btn.classList.remove('btn-click-feedback'), 230);
+        });
+
+        function saveDB() { localStorage.setItem('koreacoin_db', JSON.stringify(db)); }
+
+        function maskWalletForNotice(wallet) {
+            const value = String(wallet || '');
+            if(value.length <= 14) return value;
+            return value.slice(0, 8) + '...' + value.slice(-6);
+        }
+
+        async function notifyTelegram(eventType, payload) {
+            const now = new Date().toLocaleString();
+            const titleMap = {
+                MEMBER_SIGNUP: '신규 회원가입 신청',
+                PURCHASE_REQUEST: '신규 매수/매도 신청',
+                MEMBER_STATUS: '회원 승인/거절 처리',
+                APPLICATION_STATUS: '거래 신청 승인/거절 처리'
+            };
+            const title = titleMap[eventType] || 'KOREACOIN 알림';
+            const textLines = [`[KOREACOIN] ${title}`];
+            Object.entries(payload || {}).forEach(([key, value]) => {
+                if(value !== undefined && value !== null && value !== '') textLines.push(`${key}: ${value}`);
+            });
+            textLines.push(`시간: ${now}`);
+            const message = textLines.join('\n');
+
+            db.telegramLogs.push({ id: Date.now(), eventType, message, payload, createdAt: now, sent: TELEGRAM_CONFIG.realApiEnabled ? 'REQUESTED' : 'DEMO_LOG' });
+            try { saveDB(); } catch(e) { console.warn('Telegram log save failed', e); }
+
+            if(!TELEGRAM_CONFIG.realApiEnabled) {
+                console.log('[DEMO Telegram Bot Message]\n' + message);
+                return { ok: true, demo: true };
+            }
+
+            try {
+                const res = await fetch(TELEGRAM_CONFIG.notifyEndpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ eventType, payload, message })
+                });
+                if(!res.ok) throw new Error('Telegram notify failed');
+                return await res.json();
+            } catch(error) {
+                console.error(error);
+                showToast('텔레그램 알림 전송에 실패했습니다. 서버 설정을 확인하세요.');
+                return { ok: false };
+            }
+        }
+
+        function loadAIInstructionsUI() {
+            const s = db.aiSettings || {};
+            const tone = document.getElementById('ai-tone');
+            const contact = document.getElementById('ai-contact-guide');
+            const partner = document.getElementById('ai-partner-instructions');
+            const forbidden = document.getElementById('ai-forbidden-instructions');
+            if(tone) tone.value = s.tone || '친절하고 전문적인 말투';
+            if(contact) contact.value = s.contactGuide || '';
+            if(partner) partner.value = s.partnerInstructions || '';
+            if(forbidden) forbidden.value = s.forbiddenInstructions || '';
+        }
+
+        function saveAIInstructions() {
+            db.aiSettings = {
+                tone: document.getElementById('ai-tone')?.value || '친절하고 전문적인 말투',
+                contactGuide: document.getElementById('ai-contact-guide')?.value || '',
+                partnerInstructions: document.getElementById('ai-partner-instructions')?.value || '',
+                forbiddenInstructions: document.getElementById('ai-forbidden-instructions')?.value || '',
+                updatedAt: new Date().toLocaleString(),
+                updatedBy: currentUser?.id || 'unknown'
+            };
+            saveDB();
+            showToast('AI 응대 지침이 저장되었습니다.');
+        }
+
+        function testAIInstructionPreview() {
+            saveAIInstructions();
+            const box = document.getElementById('ai-preview-box');
+            if(!box) return;
+            box.classList.remove('hidden');
+            box.innerHTML = `
+                <h4 class="font-semibold text-slate-900 mb-2">예시 고객 응대</h4>
+                <div class="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">안녕하세요. KOREACOIN 상담입니다.\n회원가입 후 관리자 승인이 완료되면 매수/매도 신청을 진행하실 수 있습니다.\n신청 시 지갑주소는 고객님이 직접 입력하신 주소로만 처리되므로 반드시 정확히 확인해 주세요.\n${db.aiSettings.contactGuide || '추가 상담은 카카오톡 또는 텔레그램으로 도와드리겠습니다.'}</div>`;
+        }
+
+        function toggleAIChat(force) {
+            const panel = document.getElementById('ai-chat-panel');
+            if(!panel) return;
+            const active = typeof force === 'boolean' ? force : !panel.classList.contains('active');
+            panel.classList.toggle('active', active);
+            if(active) setTimeout(() => document.getElementById('ai-chat-input')?.focus(), 120);
+        }
+
+        function appendAIMessage(role, text) {
+            const body = document.getElementById('ai-chat-body');
+            if(!body) return;
+            const div = document.createElement('div');
+            div.className = 'ai-msg ' + (role === 'user' ? 'user' : 'bot');
+            div.textContent = text;
+            body.appendChild(div);
+            body.scrollTop = body.scrollHeight;
+        }
+
+        function normalizeAIText(text) {
+            return String(text || '').toLowerCase().replace(/\s+/g, ' ').trim();
+        }
+
+        function isForbiddenAIQuestion(question) {
+            const q = normalizeAIText(question);
+            const forbiddenPatterns = [
+                /코드|소스|html|javascript|js\b|api\s*key|토큰|서버\s*구조|관리자\s*구조|db|database|데이터베이스|localstorage|파일\s*구조/,
+                /관리자.*누구|운영자.*누구|대표.*누구|파트너.*누구|관리자\s*정보|운영자\s*정보|파트너\s*정보|내부\s*정보|어디서\s*운영/,
+                /해킹|hack|크래킹|침투|취약점|공격|디도스|ddos|우회|추적\s*회피|수사\s*회피|아이피\s*숨|ip\s*숨|익명/,
+                /자금세탁|돈세탁|보이스피싱|도박|마약|불법|대포|타인\s*명의|명의\s*빌려|사기|피해금/,
+                /섹스|sex|성인|야한|음란|포르노|porn|19금/,
+                /씨발|시발|병신|개새|좆|fuck|shit|bitch/,
+                /수익\s*보장|무조건\s*오름|시세\s*예측|투자\s*추천|몰빵/
+            ];
+            return forbiddenPatterns.some(pattern => pattern.test(q));
+        }
+
+        function buildPolicyRefusal() {
+            return '죄송하지만 그 내용은 안내해드릴 수 없습니다. KOREACOIN 상담은 회원가입, 본인인증, 매수/매도 신청, 지갑주소 입력, 승인 절차처럼 합법적인 서비스 이용 안내만 도와드립니다. 필요하시면 카카오톡 또는 텔레그램 상담으로 연결해드리겠습니다.';
+        }
+
+        function buildLocalAIReply(question) {
+            const q = String(question || '').trim();
+            const qLower = normalizeAIText(q);
+            const s = db.aiSettings || {};
+            const tone = s.tone || '친절하고 전문적인 말투';
+            const contact = s.contactGuide || '자세한 상담은 카카오톡 또는 텔레그램 상담으로 연결해드릴 수 있습니다.';
+            const compliance = '본 서비스는 본인 명의의 합법적인 거래만 지원합니다. 타인 명의 거래, 보이스피싱, 자금세탁, 불법 도박 관련 거래는 진행할 수 없습니다.';
+
+            if(isForbiddenAIQuestion(q)) return buildPolicyRefusal();
+
+            const greeting = qLower.match(/안녕|hello|hi|하이|문의|상담/) ? '안녕하세요. 문의 주셔서 감사합니다. ' : '';
+
+            if(/회원|가입|인증|sms|문자|휴대폰|핸드폰/.test(qLower)) {
+                return `${greeting}회원가입은 이름, 휴대폰 SMS 인증, 은행/계좌 정보를 입력하면 접수됩니다. 이후 관리자 또는 파트너가 가입 내용을 확인하고 승인하면 매수·매도 신청을 진행하실 수 있습니다. 인증번호가 오지 않으면 번호를 다시 확인하시고 잠시 후 재요청해 주세요.\n\n${compliance}`;
+            }
+            if(/매수|구매|사고|사는|신청/.test(qLower)) {
+                return `${greeting}매수 신청은 메인 화면에서 매수를 선택한 뒤 USDT 수량, 지갑주소, 신분증/인증샷을 제출하시면 접수됩니다. 접수 후 관리자 확인을 거쳐 승인 또는 거절 알림이 표시됩니다. 지갑주소는 코인을 받을 주소이므로 복사 후 앞자리와 뒷자리를 꼭 다시 확인해 주세요.\n\n${contact}`;
+            }
+            if(/매도|팔고|파는|판매/.test(qLower)) {
+                return `${greeting}매도 신청은 메인 화면에서 매도를 선택한 뒤 수량과 필요한 정보를 입력해 접수하시면 됩니다. 접수 내용은 관리자/파트너 대시보드로 전달되고, 검토 후 상태 알림을 받으실 수 있습니다.\n\n${contact}`;
+            }
+            if(/지갑|주소|trc|erc|입금|전송|보내/.test(qLower)) {
+                return `${greeting}지갑주소는 반드시 고객님이 직접 확인한 정확한 주소를 입력해 주세요. 주소가 틀리면 코인 전송 후 복구가 어려울 수 있습니다. 가능하면 주소를 직접 타이핑하지 말고 복사해서 붙여넣은 뒤 앞 4자리와 뒤 4자리를 다시 확인해 주세요.`;
+            }
+            if(/수수료|환율|가격|금액|얼마|계산/.test(qLower)) {
+                return `${greeting}화면에 표시되는 USDT 기준가와 적용 환율을 기준으로 예상 금액이 계산됩니다. 최종 진행 전에는 표시된 수량과 금액을 다시 확인해 주세요. 환율은 실시간 기준가에 따라 변동될 수 있습니다.`;
+            }
+            if(/승인|거절|대기|언제|처리|확인/.test(qLower)) {
+                return `${greeting}신청이 접수되면 관리자 또는 파트너가 내용을 확인합니다. 승인되면 고객님이 제출하신 지갑주소로 요청하신 코인을 보내드린다는 알림이 표시됩니다. 거절된 경우에는 안내 메시지를 확인하시고 상담으로 문의해 주세요.`;
+            }
+
+            return `${greeting}${tone}로 안내드리겠습니다. 질문하신 내용은 확인이 필요해 보입니다. KOREACOIN에서는 회원가입, 본인인증, 매수·매도 신청, 지갑주소 입력, 승인 절차를 도와드릴 수 있습니다. 원하시는 내용을 조금 더 구체적으로 말씀해 주시면 그 흐름에 맞춰 안내드리겠습니다.\n\n${contact}\n\n${compliance}`;
+        }
+
+        async function sendAIChatMessage() {
+            const input = document.getElementById('ai-chat-input');
+            const question = (input?.value || '').trim();
+            if(!question) return;
+            input.value = '';
+            appendAIMessage('user', question);
+            appendAIMessage('bot', '답변을 준비 중입니다...');
+            const body = document.getElementById('ai-chat-body');
+            const loadingMsg = body?.lastElementChild;
+
+            if(!AI_CONFIG.realApiEnabled) {
+                setTimeout(() => {
+                    if(loadingMsg) loadingMsg.textContent = buildLocalAIReply(question);
+                }, 350);
+                return;
+            }
+
+            try {
+                const res = await fetch(AI_CONFIG.chatEndpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question, aiSettings: db.aiSettings })
+                });
+                const data = await res.json();
+                if(loadingMsg) loadingMsg.textContent = data.answer || buildLocalAIReply(question);
+            } catch(error) {
+                console.error(error);
+                if(loadingMsg) loadingMsg.textContent = 'AI 서버 연결에 문제가 있습니다. 잠시 후 다시 문의해 주세요.';
+            }
+        }
+
+
+        function getPartnerById(partnerId) {
+            return db.partners.find(p => String(p.id) === String(partnerId));
+        }
+
+        function getPartnerName(partnerId) {
+            const p = getPartnerById(partnerId);
+            return p ? p.name : '기본 파트너';
+        }
+
+        function getUserPartnerId(userId) {
+            const user = db.users.find(u => String(u.id) === String(userId));
+            return user ? (user.partnerId || 'partner') : 'partner';
+        }
+
+        function canViewPartnerData(partnerId) {
+            if(!currentUser) return false;
+            if(currentUser.role === 'SUPER_ADMIN') return true;
+            return String(currentUser.partnerId || currentUser.id) === String(partnerId || 'partner');
+        }
+
+        ensureDefaultPartners();
+        saveDB();
+
+        // --- Upbit WebSocket (Extended List) ---
+        const ws = new WebSocket("wss://api.upbit.com/websocket/v1");
+        ws.onopen = () => { const msg = [{"ticket":"koreacoin"},{"type":"ticker","codes":["KRW-BTC","KRW-ETH","KRW-XRP","KRW-SOL","KRW-DOGE","KRW-USDT","KRW-ADA","KRW-AVAX","KRW-DOT","KRW-LINK"]}]; ws.send(JSON.stringify(msg)); };
+        ws.onmessage = (event) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const data = JSON.parse(reader.result);
+                if(data.code) {
+                    liveTickerData[data.code] = data;
+                    if(data.code === 'KRW-USDT') {
+                        baseUsdtKrw = data.trade_price;
+                        document.getElementById('current-base-rate').innerText = baseUsdtKrw.toLocaleString() + ' KRW';
+                        document.getElementById('dash-base-rate').innerText = baseUsdtKrw.toLocaleString() + ' KRW';
+                        calculateTrade();
+                        updateAppliedRatesUI();
+                    }
+                    updateTickerDOM();
+                    updateMarketTableDOM();
+                }
+            };
+            reader.readAsText(event.data);
+        };
+
+        const coinVisualMap = {
+            BTC: { logo: 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/btc.png', alt: 'Bitcoin' },
+            ETH: { logo: 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/eth.png', alt: 'Ethereum' },
+            XRP: { logo: 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/xrp.png', alt: 'XRP' },
+            SOL: { logo: 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/sol.png', alt: 'Solana' },
+            DOGE: { logo: 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/doge.png', alt: 'Dogecoin' },
+            USDT: { logo: 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/usdt.png', alt: 'Tether' },
+            ADA: { logo: 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/ada.png', alt: 'Cardano' },
+            AVAX: { logo: 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/avax.png', alt: 'Avalanche' },
+            DOT: { logo: 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/dot.png', alt: 'Polkadot' },
+            LINK: { logo: 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/link.png', alt: 'Chainlink' },
+            TRX: { logo: 'https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/trx.png', alt: 'TRON' }
+        };
+
+        function getCoinVisual(symbol) {
+            return coinVisualMap[symbol] || {
+                logo: `https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/generic.png`,
+                alt: symbol
+            };
+        }
+
+
+        function escapeHTML(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;')
+                .replace(/\n/g, '<br>');
+        }
+
+        function updateTickerDOM() {
+            const container = document.getElementById('crypto-ticker');
+            let html = '';
+            const renderList = () => Object.values(liveTickerData).map(d => {
+                const symbol = d.code.replace('KRW-', '');
+                const visual = getCoinVisual(symbol);
+                const price = d.trade_price.toLocaleString();
+                const change = (d.signed_change_rate * 100).toFixed(2);
+                const color = change >= 0 ? 'text-red-400' : 'text-blue-400';
+                return `<div class="flex items-center gap-3 px-6 py-2 border-r border-slate-200 whitespace-nowrap"><span class="ticker-coin-chip"><img src="${visual.logo}" alt="${visual.alt}"></span><span class="ticker-symbol-text">${symbol}</span><span class="text-slate-600 font-medium">${price}원</span><span class="${color} text-sm font-medium">${change}%</span></div>`;
+            }).join('');
+            html = renderList() + renderList();
+            if(container.innerHTML !== html) container.innerHTML = html;
+        }
+
+        function updateMarketTableDOM() {
+            const tbody = document.getElementById('market-table-body');
+            if(!tbody) return;
+            let html = '';
+            const coins = Object.values(liveTickerData).sort((a,b) => b.acc_trade_price_24h - a.acc_trade_price_24h); // 거래량순 정렬
+            
+            coins.forEach(d => {
+                if(d.code === 'KRW-USDT') return; // 테더는 테이블에서 제외 (위에 따로 표시)
+                const symbol = d.code.replace('KRW-', '');
+                const visual = getCoinVisual(symbol);
+                const price = d.trade_price.toLocaleString();
+                const change = (d.signed_change_rate * 100).toFixed(2);
+                const color = change >= 0 ? 'text-red-400' : 'text-blue-400';
+                const bg = change >= 0 ? 'bg-red-500/10' : 'bg-blue-500/10';
+                
+                html += `
+                <tr class="hover:bg-slate-50 transition cursor-pointer" onclick="executeTrade()">
+                    <td class="p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="coin-badge-soft"><img src="${visual.logo}" alt="${visual.alt}"></div>
+                            <div><p class="market-coin-name">${symbol}</p><p class="market-coin-market">KRW</p></div>
+                        </div>
+                    </td>
+                    <td class="p-4 text-right market-price">${price}<span class="text-xs text-slate-400 ml-1 font-medium">KRW</span></td>
+                    <td class="p-4 text-right"><span class="px-2 py-1 rounded-md text-sm font-medium ${color} ${bg}">${change}%</span></td>
+                    <td class="p-4 text-right"><button type="button" class="market-trade-btn bg-sky-50 text-sky-600 border border-sky-100 px-5 py-2 rounded-xl text-sm hover:bg-sky-500 hover:text-white transition">거래</button></td>
+                </tr>`;
+            });
+            if(tbody.innerHTML !== html) tbody.innerHTML = html;
+        }
+
+        // --- Routing & UI Logic ---
+        function showView(viewId, options = {}) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            const targetView = document.getElementById('view-' + viewId);
+            if(targetView) targetView.classList.remove('hidden');
+            if (viewId === 'kyc') updateKycTradeMode();
+            renderCustomerNotifications();
+            if (viewId === 'dashboard') initDashboard();
+            if (viewId === 'home') { updateTradeButtonsUI(); calculateTrade(); }
+            if (options.scrollTop !== false) {
+                setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 30);
+            }
+        }
+
+        function getTradeLabel(type = currentTradeType) {
+            return type === 'sell' ? '매도' : '매수';
+        }
+
+        function updateKycTradeMode() {
+            const label = getTradeLabel();
+            document.getElementById('kyc-title').innerText = `2단계: 코인 ${label} 신청`;
+            document.getElementById('kyc-subtitle').innerText = `서류를 업로드하고 ${label} 정보를 입력하세요.`;
+            document.getElementById('kyc-amount-label').innerText = `4. ${label} 수량 (USDT)`;
+            document.getElementById('kyc-submit-btn').innerText = `${label} 신청 완료`;
+        }
+
+        function updateTradeButtonsUI() {
+            const buyTab = document.getElementById('tab-buy');
+            const sellTab = document.getElementById('tab-sell');
+            const actionBtn = document.getElementById('trade-action-btn');
+            if(!buyTab || !sellTab || !actionBtn) return;
+
+            if(currentTradeType === 'buy') {
+                buyTab.className = "w-1/2 py-3 rounded-2xl font-bold text-lg border-2 border-blue-500 bg-blue-50 text-blue-600 transition";
+                sellTab.className = "w-1/2 py-3 rounded-2xl font-bold text-lg border-2 border-slate-200 text-slate-500 transition bg-white";
+                actionBtn.className = "w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-2xl font-bold text-lg transition";
+                actionBtn.innerText = "USDT 매수 신청하기";
+            } else {
+                sellTab.className = "w-1/2 py-3 rounded-2xl font-bold text-lg border-2 border-red-500 bg-red-50 text-red-500 transition";
+                buyTab.className = "w-1/2 py-3 rounded-2xl font-bold text-lg border-2 border-slate-200 text-slate-500 transition bg-white";
+                actionBtn.className = "w-full bg-red-600 hover:bg-red-700 text-white p-4 rounded-2xl font-bold text-lg transition";
+                actionBtn.innerText = "USDT 매도 신청하기";
+            }
+        }
+
+        function setTradeType(type) {
+            currentTradeType = type;
+            pendingTradeType = type;
+            updateTradeButtonsUI();
+            calculateTrade();
+        }
+
+        function startTrade(type = currentTradeType) {
+            currentTradeType = type;
+            pendingTradeType = type;
+            updateTradeButtonsUI();
+
+            const user = db.users.find(u => String(u.id) === String(currentCustomerId));
+            if(user) {
+                const memberStatus = user.memberStatus || 'APPROVED';
+                if(memberStatus === 'APPROVED') {
+                    showView('kyc');
+                    return;
+                }
+                if(memberStatus === 'PENDING') {
+                    showToast('회원가입 신청이 승인 대기 중입니다. 관리자/파트너 승인 후 거래 신청이 가능합니다.');
+                    showView('home');
+                    return;
+                }
+                if(memberStatus === 'REJECTED') {
+                    alert('회원가입 신청이 거절되었습니다. 관리자에게 문의해 주세요.');
+                    showView('home');
+                    return;
+                }
+            }
+
+            showView('signup');
+        }
+
+        function calculateTrade() {
+            if(baseUsdtKrw === 0) return;
+            const amount = parseFloat(document.getElementById('trade-amount').value) || 0;
+            const finalBuyRate = baseUsdtKrw + db.rates.buyAdjust;
+            const finalSellRate = baseUsdtKrw + db.rates.sellAdjust;
+            const appliedRate = currentTradeType === 'buy' ? finalBuyRate : finalSellRate;
+            
+            document.getElementById('trade-total').value = (amount * appliedRate).toLocaleString() + ' 원';
+            document.getElementById('calc-buy-rate-display').innerText = finalBuyRate.toLocaleString() + ' 원 (기준가+' + db.rates.buyAdjust + ')';
+            document.getElementById('calc-sell-rate-display').innerText = finalSellRate.toLocaleString() + ' 원 (기준가+' + db.rates.sellAdjust + ')';
+        }
+
+        function executeTrade() { startTrade(currentTradeType); }
+
+        function handleLogin() {
+            const id = document.getElementById('login-id').value.trim();
+            const pw = document.getElementById('login-pw').value;
+            if (id === 'admin' && pw === '1234') {
+                currentUser = { id: 'admin', role: 'SUPER_ADMIN', partnerId: null };
+            } else {
+                const partner = db.partners.find(p => String(p.id) === id && String(p.password) === pw && p.status !== 'DELETED');
+                if(!partner) { alert('잘못된 계정입니다.'); return; }
+                if(partner.status === 'SUSPENDED') { alert('정지된 파트너 계정입니다. 최고관리자에게 문의하세요.'); return; }
+                currentUser = { id: partner.id, role: 'PARTNER', partnerId: partner.id, partnerName: partner.name };
+            }
+            document.getElementById('nav-auth').classList.add('hidden');
+            document.getElementById('nav-user').classList.remove('hidden');
+            const partnerTab = document.getElementById('btn-tab-partners');
+            if(partnerTab) partnerTab.classList.toggle('hidden', currentUser.role !== 'SUPER_ADMIN');
+            const badge = document.getElementById('user-role-badge');
+            badge.innerText = currentUser.role === 'SUPER_ADMIN' ? '최고관리자' : (currentUser.partnerName || '파트너사');
+            badge.className = `text-xs font-bold px-3 py-1 rounded-full ${currentUser.role === 'SUPER_ADMIN' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'}`;
+            showView('dashboard');
+        }
+        function logout() { currentUser = null; document.getElementById('nav-auth').classList.remove('hidden'); document.getElementById('nav-user').classList.add('hidden'); const partnerTab = document.getElementById('btn-tab-partners'); if(partnerTab) partnerTab.classList.add('hidden'); showView('home'); }
+
+        async function sendSignupSMS() {
+            const phone = document.getElementById('signup-phone').value.trim();
+            const display = document.getElementById('signup-sms-display');
+            const btn = event && event.target ? event.target : null;
+
+            if(!phone) { alert('연락처를 입력하세요.'); return; }
+            if(!/^\d{9,12}$/.test(phone.replace(/-/g, ''))) {
+                alert('휴대폰 번호를 숫자로 정확히 입력해주세요.');
+                return;
+            }
+
+            if(btn) { btn.disabled = true; btn.innerText = '문자 발송 중...'; }
+
+            try {
+                if(SMS_CONFIG.realApiEnabled) {
+                    const res = await fetch(SMS_CONFIG.sendEndpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ phone })
+                    });
+                    const data = await res.json();
+                    if(!res.ok || !data.ok) throw new Error(data.message || 'SMS 발송 실패');
+                    smsSessionId = data.sessionId;
+                    smsRequestSent = true;
+                    currentSmsCode = null;
+                    display.innerText = '입력하신 휴대폰으로 보안 인증번호 4자리를 발송했습니다.';
+                } else {
+                    // HTML 단독 테스트용입니다. 실제 운영에서는 절대 프론트에서 인증번호를 만들면 안 됩니다.
+                    currentSmsCode = String(Math.floor(1000 + Math.random() * 9000));
+                    smsSessionId = 'LOCAL_DEMO_' + Date.now();
+                    smsRequestSent = true;
+                    display.innerText = `[테스트모드] 실제 운영에서는 이 번호가 고객 휴대폰 문자로 발송됩니다. 인증번호: ${currentSmsCode}`;
+                }
+
+                display.classList.remove('hidden');
+                showToast('SMS 인증번호가 발송되었습니다.');
+            } catch(err) {
+                alert('SMS 발송 서버가 아직 연결되지 않았습니다. 서버/SMS API 연결 후 실제 문자 발송이 가능합니다.');
+                console.error(err);
+            } finally {
+                if(btn) { btn.disabled = false; btn.innerText = 'SMS 인증요청'; }
+            }
+        }
+
+        async function verifySignupSMS(phone, sms) {
+            if(!smsRequestSent) {
+                alert('SMS 인증 요청을 먼저 진행해주세요.');
+                return false;
+            }
+
+            if(SMS_CONFIG.realApiEnabled) {
+                try {
+                    const res = await fetch(SMS_CONFIG.verifyEndpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ phone, code: sms, sessionId: smsSessionId })
+                    });
+                    const data = await res.json();
+                    if(!res.ok || !data.ok) {
+                        alert(data.message || '인증번호가 일치하지 않습니다.');
+                        return false;
+                    }
+                    return true;
+                } catch(err) {
+                    alert('SMS 인증 서버와 연결할 수 없습니다. 잠시 후 다시 시도해주세요.');
+                    console.error(err);
+                    return false;
+                }
+            }
+
+            if(sms !== currentSmsCode) {
+                alert('인증번호가 일치하지 않습니다.');
+                return false;
+            }
+            return true;
+        }
+
+        async function completeSignup() {
+            const name = document.getElementById('signup-name').value.trim();
+            const phone = document.getElementById('signup-phone').value.trim();
+            const sms = document.getElementById('signup-sms').value.trim();
+            const bank = document.getElementById('signup-bank').value;
+            const account = document.getElementById('signup-account').value.trim();
+            if(!name || !phone || !sms || !bank || !account) { alert('모든 항목을 입력해주세요.'); return; }
+            if(!await verifySignupSMS(phone, sms)) return;
+
+            currentCustomerId = Date.now();
+            db.users.push({
+                id: currentCustomerId,
+                name,
+                phone,
+                bank,
+                account,
+                createdAt: new Date().toLocaleString(),
+                partnerId: 'partner',
+                partner: getPartnerName('partner'),
+                memberStatus: 'PENDING',
+                memberStatusUpdatedAt: null
+            });
+            saveDB();
+
+            showToast('회원가입 신청이 접수되었습니다. 관리자/파트너 승인 후 매수·매도 신청이 가능합니다.');
+            currentTradeType = pendingTradeType;
+            renderCustomerNotifications();
+            showView('home');
+        }
+
+        function compressImageFile(file, maxSize = 1100, quality = 0.68) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                const objectUrl = URL.createObjectURL(file);
+
+                img.onload = () => {
+                    try {
+                        let width = img.width;
+                        let height = img.height;
+                        const ratio = Math.min(maxSize / width, maxSize / height, 1);
+                        width = Math.round(width * ratio);
+                        height = Math.round(height * ratio);
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        URL.revokeObjectURL(objectUrl);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    } catch (err) {
+                        URL.revokeObjectURL(objectUrl);
+                        reject(err);
+                    }
+                };
+
+                img.onerror = () => {
+                    URL.revokeObjectURL(objectUrl);
+                    reject(new Error('이미지를 읽을 수 없습니다.'));
+                };
+
+                img.src = objectUrl;
+            });
+        }
+
+        function compressDataUrl(dataUrl, maxSize = 760, quality = 0.52) {
+            return new Promise((resolve) => {
+                if(!dataUrl || !dataUrl.startsWith('data:image')) return resolve(dataUrl || '');
+                const img = new Image();
+                img.onload = () => {
+                    try {
+                        let width = img.width;
+                        let height = img.height;
+                        const ratio = Math.min(maxSize / width, maxSize / height, 1);
+                        width = Math.round(width * ratio);
+                        height = Math.round(height * ratio);
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    } catch(e) {
+                        resolve(dataUrl);
+                    }
+                };
+                img.onerror = () => resolve(dataUrl);
+                img.src = dataUrl;
+            });
+        }
+
+        async function compressCurrentPreviewImages() {
+            const idCard = document.getElementById('id-card-preview');
+            const verifyShot = document.getElementById('verify-shot-preview');
+            const face = document.getElementById('face-preview');
+            if(idCard?.src) idCard.src = await compressDataUrl(idCard.src, 760, 0.50);
+            if(verifyShot?.src) verifyShot.src = await compressDataUrl(verifyShot.src, 760, 0.50);
+            if(face?.src) face.src = await compressDataUrl(face.src, 760, 0.50);
+        }
+
+        async function handleFileUpload(input, previewId, labelId) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const preview = document.getElementById(previewId);
+            const label = document.getElementById(labelId);
+
+            try {
+                showToast('사진을 확인 중입니다. 잠시만 기다려 주세요.');
+                const compressedDataUrl = await compressImageFile(file, 1100, 0.68);
+                preview.src = compressedDataUrl;
+            } catch (e) {
+                const reader = new FileReader();
+                reader.onload = (ev) => { preview.src = ev.target.result; };
+                reader.readAsDataURL(file);
+            }
+
+            preview.classList.remove('hidden');
+            label.classList.add('uploaded');
+
+            if(input.id === 'input-id-card') {
+                uploadedFiles.idCard = true;
+                document.getElementById('btn-reset-id-card')?.classList.remove('hidden');
+            }
+            if(input.id === 'input-verify-shot') {
+                uploadedFiles.verifyShot = true;
+                document.getElementById('btn-reset-verify-shot')?.classList.remove('hidden');
+            }
+            if(input.id === 'input-face') {
+                document.getElementById('btn-reset-face')?.classList.remove('hidden');
+            }
+
+            showToast('사진이 첨부되었습니다. 용량은 자동 최적화됩니다.');
+        }
+
+        function clearFileUpload(inputId, previewId, labelId, key) {
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+            const label = document.getElementById(labelId);
+            if(input) input.value = '';
+            if(preview) {
+                preview.src = '';
+                preview.classList.add('hidden');
+            }
+            if(label) label.classList.remove('uploaded');
+            if(key === 'idCard') uploadedFiles.idCard = false;
+            if(key === 'verifyShot') uploadedFiles.verifyShot = false;
+            if(inputId === 'input-id-card') document.getElementById('btn-reset-id-card')?.classList.add('hidden');
+            if(inputId === 'input-verify-shot') document.getElementById('btn-reset-verify-shot')?.classList.add('hidden');
+            if(inputId === 'input-face') document.getElementById('btn-reset-face')?.classList.add('hidden');
+            showToast('사진을 다시 첨부할 수 있습니다.');
+        }
+
+        function resetKYCForm() {
+            ['purchase-amount', 'wallet-address', 'purchase-memo'].forEach(id => document.getElementById(id).value = '');
+            ['id-card-preview', 'verify-shot-preview', 'face-preview'].forEach(id => document.getElementById(id).classList.add('hidden'));
+            ['label-id-card', 'label-verify-shot', 'label-face'].forEach(id => document.getElementById(id).classList.remove('uploaded'));
+            ['input-id-card', 'input-verify-shot', 'input-face'].forEach(id => document.getElementById(id).value = '');
+            ['btn-reset-id-card', 'btn-reset-verify-shot', 'btn-reset-face'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+            uploadedFiles = { idCard: false, verifyShot: false };
+            purchaseMemoDraft = '';
+        }
+
+        function normalizeSubmitText(value) {
+            return String(value || '').trim().replace(/\s+/g, ' ');
+        }
+
+        function buildPurchaseSignature(customerId, tradeType, amount, wallet, memo) {
+            const today = new Date().toISOString().slice(0, 10);
+            return [
+                today,
+                String(customerId || ''),
+                String(tradeType || ''),
+                normalizeSubmitText(amount),
+                normalizeSubmitText(wallet).toLowerCase(),
+                normalizeSubmitText(memo)
+            ].join('|');
+        }
+
+        function findDuplicatePurchase(signature, customerId, tradeType, amount, wallet, memo) {
+            const normalizedAmount = normalizeSubmitText(amount);
+            const normalizedWallet = normalizeSubmitText(wallet).toLowerCase();
+            const normalizedMemo = normalizeSubmitText(memo);
+            return db.applications.find(app => {
+                if(app.submitSignature && app.submitSignature === signature) return true;
+                return String(app.customerId || '') === String(customerId || '') &&
+                    String(app.tradeType || '') === String(tradeType || '') &&
+                    normalizeSubmitText(app.amount) === normalizedAmount &&
+                    normalizeSubmitText(app.wallet).toLowerCase() === normalizedWallet &&
+                    normalizeSubmitText(app.memo) === normalizedMemo &&
+                    ['PENDING', 'APPROVED'].includes(app.status || 'PENDING');
+            });
+        }
+
+        function setPurchaseButtonLoading(isLoading, tradeLabel = getTradeLabel(), completed = false) {
+            const btn = document.getElementById('kyc-submit-btn');
+            if(!btn) return;
+            btn.disabled = isLoading;
+            btn.style.opacity = isLoading ? '0.92' : '1';
+            btn.style.pointerEvents = isLoading ? 'none' : 'auto';
+            btn.classList.toggle('submit-pressed', isLoading);
+            if(isLoading) {
+                btn.innerHTML = completed
+                    ? `✅ ${tradeLabel} 접수 완료`
+                    : `<span class="btn-spinner"></span>${tradeLabel} 접수 중...`;
+            } else {
+                btn.innerText = `${tradeLabel} 신청 완료`;
+            }
+        }
+
+        function completePurchaseAndReturnHome(tradeLabel) {
+            const overlay = document.getElementById('success-overlay');
+            const title = document.getElementById('success-title');
+            const message = document.getElementById('success-message');
+
+            if(title) title.innerText = `${tradeLabel} 신청 완료`;
+            if(message) message.innerText = `${tradeLabel} 신청이 정상 접수되었습니다. 곧 메인 화면으로 이동합니다.`;
+            if(overlay) overlay.classList.add('active');
+
+            window.setTimeout(() => {
+                if(overlay) overlay.classList.remove('active');
+                resetKYCForm();
+                isSubmittingPurchase = false;
+                setPurchaseButtonLoading(false, tradeLabel);
+                showView('home');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 600);
+
+            // iPhone Safari에서 setTimeout/화면 갱신이 느릴 때를 위한 보조 안전장치
+            window.setTimeout(() => {
+                const home = document.getElementById('view-home');
+                const kyc = document.getElementById('view-kyc');
+                if(home && kyc && home.classList.contains('hidden') && !isSubmittingPurchase) {
+                    showView('home');
+                    window.scrollTo(0, 0);
+                }
+            }, 1200);
+        }
+
+        function submitPurchase() {
+            if(isSubmittingPurchase) {
+                showToast('이미 신청 처리 중입니다. 잠시만 기다려 주세요.');
+                return;
+            }
+
+            const amount = document.getElementById('purchase-amount').value;
+            const wallet = document.getElementById('wallet-address').value;
+            const memoEl = document.getElementById('purchase-memo');
+            const memo = ((memoEl && memoEl.value) || purchaseMemoDraft || '').trim();
+            const tradeLabel = getTradeLabel();
+
+            if(!uploadedFiles.idCard) { alert('신분증 앞면 사진을 업로드해주세요.'); return; }
+            if(!uploadedFiles.verifyShot) { alert('필수 인증샷을 업로드해주세요.'); return; }
+            if(!amount || amount <= 0) { alert(`${tradeLabel} 수량을 올바르게 입력해주세요.`); return; }
+            if(!wallet) { alert('테더 지갑 주소를 입력해주세요.'); return; }
+
+            const user = db.users.find(u => String(u.id) === String(currentCustomerId));
+            if(!user) { alert('회원 정보가 없습니다. 1단계 회원가입부터 다시 진행해주세요.'); showView('signup'); return; }
+            const memberStatus = user.memberStatus || 'APPROVED';
+            if(memberStatus !== 'APPROVED') {
+                alert(memberStatus === 'PENDING' ? '회원가입 신청이 아직 승인되지 않았습니다.' : '회원가입 신청이 거절되어 거래 신청을 할 수 없습니다.');
+                showView('home');
+                return;
+            }
+
+            isSubmittingPurchase = true;
+            setPurchaseButtonLoading(true, tradeLabel);
+            showToast(`${tradeLabel} 신청 접수 중입니다...`);
+            if(navigator.vibrate) navigator.vibrate(30);
+
+            // iPhone Safari에서는 사진(localStorage 저장)이 무거우면 화면 반응이 늦게 보일 수 있습니다.
+            // 버튼 피드백을 먼저 그리게 한 뒤 실제 저장 처리를 실행합니다.
+            window.setTimeout(() => {
+                processPurchaseSubmission({ amount, wallet, memo, tradeLabel, user });
+            }, 60);
+        }
+
+        async function processPurchaseSubmission({ amount, wallet, memo, tradeLabel, user }) {
+            const submitSignature = buildPurchaseSignature(currentCustomerId, currentTradeType, amount, wallet, memo);
+            const duplicate = findDuplicatePurchase(submitSignature, currentCustomerId, currentTradeType, amount, wallet, memo);
+            if(duplicate) {
+                setPurchaseButtonLoading(true, tradeLabel, true);
+                showToast(`이미 같은 ${tradeLabel} 신청이 접수되어 중복 저장하지 않았습니다.`);
+                completePurchaseAndReturnHome(tradeLabel);
+                return;
+            }
+
+            const numericAmount = parseFloat(amount) || 0;
+            const rateAdjust = currentTradeType === 'buy' ? (parseFloat(db.rates.buyAdjust) || 0) : (parseFloat(db.rates.sellAdjust) || 0);
+            const appliedRate = (baseUsdtKrw || 0) + rateAdjust;
+            const estimatedTotal = numericAmount * appliedRate;
+            const expectedProfit = numericAmount * Math.abs(rateAdjust);
+            const nowText = new Date().toLocaleString();
+
+            const newApp = {
+                id: Date.now(),
+                customerId: currentCustomerId,
+                submitSignature,
+                tradeType: currentTradeType,
+                tradeLabel,
+                name: user.name,
+                phone: user.phone,
+                bank: user.bank,
+                account: user.account,
+                amount,
+                wallet,
+                memo,
+                baseRate: baseUsdtKrw || 0,
+                rateAdjust,
+                appliedRate,
+                estimatedTotal,
+                expectedProfit,
+                idCard: document.getElementById('id-card-preview').src,
+                verifyShot: document.getElementById('verify-shot-preview').src,
+                face: document.getElementById('face-preview').src,
+                status: 'PENDING',
+                createdAt: nowText,
+                updatedAt: null
+            };
+            
+            db.applications.push(newApp);
+            db.notifications.push({
+                id: Date.now() + 1,
+                customerId: currentCustomerId,
+                appId: newApp.id,
+                status: 'PENDING',
+                message: `${tradeLabel} 신청이 접수되었습니다. 관리자 확인 후 승인 또는 거절 알림을 보내드립니다.`,
+                createdAt: nowText,
+                read: false
+            });
+
+            try {
+                saveDB();
+            } catch (error) {
+                console.warn('1차 저장 실패, 사진 자동 재최적화 후 재시도합니다.', error);
+                try {
+                    await compressCurrentPreviewImages();
+                    newApp.idCard = document.getElementById('id-card-preview').src;
+                    newApp.verifyShot = document.getElementById('verify-shot-preview').src;
+                    newApp.face = document.getElementById('face-preview').src;
+                    saveDB();
+                } catch (secondError) {
+                    console.error(secondError);
+                    db.applications = db.applications.filter(app => app.id !== newApp.id);
+                    db.notifications = db.notifications.filter(n => n.appId !== newApp.id);
+                    alert('사진 저장 공간이 부족합니다. 브라우저 저장공간을 비운 뒤 다시 시도해 주세요. 실제 운영에서는 서버 저장 방식으로 용량 제한 없이 처리할 수 있습니다.');
+                    isSubmittingPurchase = false;
+                    setPurchaseButtonLoading(false, tradeLabel);
+                    return;
+                }
+            }
+
+            notifyTelegram('PURCHASE_REQUEST', {
+                이름: user.name,
+                연락처: user.phone,
+                거래종류: tradeLabel,
+                수량: `${amount} USDT`,
+                지갑주소: wallet,
+                고객메모: memo || '메모 없음',
+                신청시간: nowText,
+                파트너: getPartnerName(newApp.partnerId || user.partnerId || 'partner')
+            });
+
+            setPurchaseButtonLoading(true, tradeLabel, true);
+            showToast(`${tradeLabel} 신청 완료! 메인 화면으로 이동합니다.`);
+            completePurchaseAndReturnHome(tradeLabel);
+        }
+
+        function initDashboard() { document.getElementById('admin-buy-adjust').value = db.rates.buyAdjust; document.getElementById('admin-sell-adjust').value = db.rates.sellAdjust; updateAppliedRatesUI(); renderDashboard(); }
+
+        function updateAppliedRatesUI() {
+            if(baseUsdtKrw === 0) return;
+            const buyAdj = parseInt(document.getElementById('admin-buy-adjust').value) || 0;
+            const sellAdj = parseInt(document.getElementById('admin-sell-adjust').value) || 0;
+            document.getElementById('dash-applied-buy').innerText = (baseUsdtKrw + buyAdj).toLocaleString();
+            document.getElementById('dash-applied-sell').innerText = (baseUsdtKrw + sellAdj).toLocaleString();
+        }
+
+        function saveRates() { 
+            db.rates.buyAdjust = parseInt(document.getElementById('admin-buy-adjust').value) || 0; 
+            db.rates.sellAdjust = parseInt(document.getElementById('admin-sell-adjust').value) || 0; 
+            saveDB(); 
+            calculateTrade(); 
+            updateAppliedRatesUI();
+            showToast('✅ 환율이 저장되었으며 고객 화면에 반영되었습니다.');
+        }
+
+        function switchDashTab(tab) { 
+            if(tab === 'partners' && (!currentUser || currentUser.role !== 'SUPER_ADMIN')) {
+                alert('최고관리자만 접근할 수 있습니다.');
+                tab = 'applications';
+            }
+            document.querySelectorAll('.dash-tab').forEach(el => {
+                const hidden = el.classList.contains('hidden');
+                el.className = 'dash-tab px-5 py-2 rounded-lg font-semibold text-sm' + (hidden ? ' hidden' : '');
+            }); 
+            document.querySelectorAll('.dash-content').forEach(el => el.classList.add('hidden')); 
+            const activeTab = document.getElementById('btn-tab-' + tab);
+            if(activeTab) activeTab.className = 'dash-tab active px-5 py-2 rounded-lg font-semibold text-sm' + (activeTab.classList.contains('hidden') ? ' hidden' : ''); 
+            const content = document.getElementById('dash-' + tab);
+            if(content) content.classList.remove('hidden');
+            if(tab === 'partners') renderPartners();
+            if(tab === 'ai') loadAIInstructionsUI();
+        }
+
+        function viewImage(src) { if(!src || src === 'data:,') return; document.getElementById('modal-image').src = src; document.getElementById('image-modal').classList.remove('hidden'); }
+
+        async function copyWalletAddress(appId, buttonEl) {
+            const app = db.applications.find(a => String(a.id) === String(appId));
+            if(!app || !app.wallet) {
+                showToast('복사할 지갑주소가 없습니다.');
+                return;
+            }
+
+            try {
+                if(navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(app.wallet);
+                } else {
+                    const temp = document.createElement('textarea');
+                    temp.value = app.wallet;
+                    temp.setAttribute('readonly', '');
+                    temp.style.position = 'fixed';
+                    temp.style.opacity = '0';
+                    document.body.appendChild(temp);
+                    temp.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(temp);
+                }
+
+                if(buttonEl) {
+                    const original = buttonEl.innerHTML;
+                    buttonEl.innerHTML = '<i class="fas fa-check"></i> 복사 완료';
+                    buttonEl.classList.add('bg-green-50', 'text-green-600');
+                    setTimeout(() => {
+                        buttonEl.innerHTML = original;
+                        buttonEl.classList.remove('bg-green-50', 'text-green-600');
+                    }, 1200);
+                }
+                showToast('✅ 지갑주소가 복사되었습니다.');
+            } catch (err) {
+                console.error(err);
+                showToast('복사 실패: 주소를 길게 눌러 직접 복사해주세요.');
+            }
+        }
+
+        function renderDashboard() {
+            const tbody = document.getElementById('kyc-table-body'); tbody.innerHTML = '';
+            const visibleApps = db.applications.filter(app => canViewPartnerData(app.partnerId || getUserPartnerId(app.customerId)));
+            if(visibleApps.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="10" class="p-8 text-center text-slate-500 font-bold">아직 접수된 신청이 없습니다.</td></tr>`;
+                renderUsers();
+                renderRevenue();
+                renderPartners();
+                return;
+            }
+            for (const app of visibleApps) {
+                let displayName = app.name, displayPhone = app.phone;
+                const tr = document.createElement('tr'); tr.className = "hover:bg-slate-800/50 transition";
+                const statusClass = app.status === 'PENDING' ? 'bg-yellow-500/20 text-yellow-400' : app.status === 'APPROVED' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400';
+                tr.innerHTML = `
+                    <td class="p-4 font-medium">${displayName}</td>
+                    <td class="p-4 text-sm text-slate-400">${displayPhone}</td>
+                    <td class="p-4 text-xs text-slate-500 font-semibold">${app.createdAt || '-'}</td>
+                    <td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold ${app.tradeType === 'sell' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'}">${app.tradeLabel || (app.tradeType === 'sell' ? '매도' : '매수')}</span></td>
+                    <td class="p-4 text-sm font-mono text-slate-900 font-semibold whitespace-nowrap">${app.amount} USDT</td>
+                    <td class="p-4">
+                        <div class="wallet-address-box">${app.wallet ? escapeHTML(app.wallet) : '-'}</div>
+                        ${app.wallet ? `<button type="button" onclick="copyWalletAddress('${app.id}', this)" class="wallet-copy-btn"><i class="fas fa-copy"></i> 지갑주소 복사</button>` : ''}
+                    </td>
+                    <td class="p-4 text-sm text-slate-600 max-w-[260px] whitespace-normal break-words">${app.memo ? escapeHTML(app.memo) : '<span class="text-slate-400">메모 없음</span>'}</td>
+                    <td class="p-4 space-x-1 space-y-1">
+                        <button type="button" onclick="viewImage('${app.idCard}')" class="btn-small-outline px-2 py-1 rounded text-xs font-bold hover:bg-blue-100"><i class="fas fa-id-card mr-1"></i>신분증</button>
+                        <button type="button" onclick="viewImage('${app.verifyShot}')" class="btn-small-red px-2 py-1 rounded text-xs font-bold hover:bg-red-100"><i class="fas fa-user-shield mr-1"></i>인증샷</button>
+                        ${app.face && app.face.length > 20 ? `<button type="button" onclick="viewImage('${app.face}')" class="btn-small-purple px-2 py-1 rounded text-xs font-bold hover:bg-purple-100"><i class="fas fa-portrait mr-1"></i>얼굴</button>` : ''}
+                    </td>
+                    <td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold ${statusClass}">${app.status}</span></td>
+                    <td class="p-4">${app.status === 'PENDING' ? `<button type="button" onclick="updateStatus('${app.id}', 'APPROVED', this)" class="admin-action-btn btn-approve bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs font-bold transition">승인</button><button type="button" onclick="updateStatus('${app.id}', 'REJECTED', this)" class="admin-action-btn btn-reject bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-bold transition ml-1">거절</button>` : `<span class="text-slate-500 text-xs">완료</span>`}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+            renderUsers();
+            renderRevenue();
+            renderPartners();
+        }
+
+        function getStatusBadge(status) {
+            const value = status || 'PENDING';
+            if(value === 'APPROVED') return { label: '승인', cls: 'bg-green-500/15 text-green-600 border border-green-200' };
+            if(value === 'REJECTED') return { label: '거절', cls: 'bg-red-500/15 text-red-600 border border-red-200' };
+            return { label: '대기', cls: 'bg-yellow-500/20 text-yellow-600 border border-yellow-200' };
+        }
+
+        function renderUsers() {
+            const tbody = document.getElementById('users-table-body');
+            const count = document.getElementById('users-count');
+            if(!tbody || !count) return;
+            tbody.innerHTML = '';
+            const visibleUsers = db.users.filter(u => canViewPartnerData(u.partnerId || 'partner'));
+            count.innerText = `${visibleUsers.length}명`;
+
+            if(visibleUsers.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-500">아직 가입한 회원이 없습니다.</td></tr>`;
+                return;
+            }
+
+            visibleUsers.slice().reverse().forEach(user => {
+                if(!user.memberStatus) user.memberStatus = 'APPROVED';
+                const apps = db.applications.filter(a => String(a.customerId || a.id) === String(user.id));
+                const latest = apps[apps.length - 1];
+                let displayName = user.name, displayPhone = user.phone, displayAccount = `${user.bank} / ${user.account}`;
+                const latestStatus = latest ? latest.status : '신청 없음';
+                const latestStatusClass = latestStatus === 'PENDING' ? 'bg-yellow-500/20 text-yellow-600' : latestStatus === 'APPROVED' ? 'bg-green-500/20 text-green-600' : latestStatus === 'REJECTED' ? 'bg-red-500/20 text-red-600' : 'bg-slate-100 text-slate-500';
+                const member = getStatusBadge(user.memberStatus);
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/50 transition';
+                tr.innerHTML = `
+                    <td class="p-4 text-xs text-slate-500">${user.createdAt || '-'}</td>
+                    <td class="p-4 font-medium">${displayName}</td>
+                    <td class="p-4 text-sm text-slate-500">${displayPhone}</td>
+                    <td class="p-4 text-sm text-slate-500">${displayAccount}</td>
+                    <td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold ${member.cls}">${member.label}</span></td>
+                    <td class="p-4 font-bold text-blue-500">${apps.length}건</td>
+                    <td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold ${latestStatusClass}">${latestStatus}</span></td>
+                    <td class="p-4">
+                        ${user.memberStatus === 'PENDING' ? `
+                            <button type="button" onclick="updateMemberStatus('${user.id}', 'APPROVED')" class="btn-approve bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-xs font-bold transition mr-1">승인</button>
+                            <button type="button" onclick="updateMemberStatus('${user.id}', 'REJECTED')" class="btn-reject bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-xs font-bold transition">거절</button>
+                        ` : `
+                            <button type="button" onclick="updateMemberStatus('${user.id}', 'APPROVED')" class="btn-small-outline px-3 py-1 rounded text-xs font-bold hover:bg-blue-100 mr-1">승인 변경</button>
+                            <button type="button" onclick="updateMemberStatus('${user.id}', 'REJECTED')" class="btn-small-red px-3 py-1 rounded text-xs font-bold hover:bg-red-100">거절 변경</button>
+                        `}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            saveDB();
+        }
+
+        function getPartnerStatusBadge(status) {
+            const value = status || 'ACTIVE';
+            if(value === 'SUSPENDED') return { label: '정지', cls: 'bg-red-500/15 text-red-600 border border-red-200' };
+            if(value === 'RISK') return { label: '위험표시', cls: 'bg-orange-500/15 text-orange-600 border border-orange-200' };
+            if(value === 'DELETED') return { label: '삭제됨', cls: 'bg-slate-200 text-slate-500 border border-slate-300' };
+            return { label: '활성', cls: 'bg-green-500/15 text-green-600 border border-green-200' };
+        }
+
+        function getPartnerProfit(partnerId) {
+            return db.applications
+                .filter(app => String(app.partnerId || getUserPartnerId(app.customerId)) === String(partnerId))
+                .reduce((sum, app) => sum + getApplicationProfit(app).profit, 0);
+        }
+
+        function renderPartners() {
+            const tbody = document.getElementById('partners-table-body');
+            if(!tbody) return;
+            if(!currentUser || currentUser.role !== 'SUPER_ADMIN') { tbody.innerHTML = ''; return; }
+            tbody.innerHTML = '';
+            const partners = db.partners.filter(p => p.status !== 'DELETED');
+            if(partners.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-8 text-center text-slate-500">등록된 파트너가 없습니다.</td></tr>`;
+                return;
+            }
+            partners.forEach(p => {
+                const users = db.users.filter(u => String(u.partnerId || 'partner') === String(p.id));
+                const apps = db.applications.filter(a => String(a.partnerId || getUserPartnerId(a.customerId)) === String(p.id));
+                const profit = getPartnerProfit(p.id);
+                const latest = apps.slice().sort((a,b) => Number(b.id || 0) - Number(a.id || 0))[0];
+                const status = getPartnerStatusBadge(p.status);
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+                tr.innerHTML = `
+                    <td class="p-4"><div class="font-semibold text-slate-900">${escapeHTML(p.name || p.id)}</div><div class="text-xs text-slate-500">ID: ${escapeHTML(p.id)}</div></td>
+                    <td class="p-4"><span class="px-2 py-1 rounded text-xs font-semibold ${status.cls}">${status.label}</span></td>
+                    <td class="p-4 text-right font-semibold text-slate-800">${users.length}명</td>
+                    <td class="p-4 text-right font-semibold text-slate-800">${apps.length}건</td>
+                    <td class="p-4 text-right font-semibold text-green-600">+${Math.round(profit).toLocaleString()} KRW</td>
+                    <td class="p-4 text-xs text-slate-500">${latest ? latest.createdAt : '-'}</td>
+                    <td class="p-4 min-w-[220px]"><textarea rows="2" onchange="updatePartnerMemo('${p.id}', this.value)" class="w-full p-2 rounded-lg text-xs" placeholder="관리자 메모">${escapeHTML(p.memo || '')}</textarea></td>
+                    <td class="p-4 min-w-[240px] space-x-1 space-y-1">
+                        <button type="button" onclick="setPartnerStatus('${p.id}', 'ACTIVE')" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs font-semibold">활성</button>
+                        <button type="button" onclick="setPartnerStatus('${p.id}', 'SUSPENDED')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold">정지</button>
+                        <button type="button" onclick="setPartnerStatus('${p.id}', 'RISK')" class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-xs font-semibold">위험</button>
+                        <button type="button" onclick="deletePartner('${p.id}')" class="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1 rounded text-xs font-semibold">삭제</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function addPartner() {
+            if(!currentUser || currentUser.role !== 'SUPER_ADMIN') { alert('최고관리자만 가능합니다.'); return; }
+            const id = document.getElementById('partner-new-id').value.trim();
+            const name = document.getElementById('partner-new-name').value.trim();
+            const password = document.getElementById('partner-new-pw').value.trim();
+            if(!id || !name || !password) { alert('파트너 ID, 파트너명, 비밀번호를 모두 입력하세요.'); return; }
+            if(id === 'admin') { alert('admin은 사용할 수 없습니다.'); return; }
+            if(db.partners.some(p => p.id === id && p.status !== 'DELETED')) { alert('이미 존재하는 파트너 ID입니다.'); return; }
+            const now = new Date().toLocaleString();
+            db.partners.push({ id, name, password, status: 'ACTIVE', memo: '', createdAt: now, updatedAt: now });
+            saveDB();
+            document.getElementById('partner-new-id').value = '';
+            document.getElementById('partner-new-name').value = '';
+            document.getElementById('partner-new-pw').value = '';
+            renderPartners();
+            showToast('파트너가 추가되었습니다.');
+        }
+
+        function setPartnerStatus(partnerId, status) {
+            if(!currentUser || currentUser.role !== 'SUPER_ADMIN') { alert('최고관리자만 가능합니다.'); return; }
+            const p = getPartnerById(partnerId);
+            if(!p) return;
+            p.status = status;
+            p.updatedAt = new Date().toLocaleString();
+            saveDB();
+            renderPartners();
+            showToast(`파트너 상태가 ${getPartnerStatusBadge(status).label}(으)로 변경되었습니다.`);
+        }
+
+        function updatePartnerMemo(partnerId, memo) {
+            const p = getPartnerById(partnerId);
+            if(!p) return;
+            p.memo = memo;
+            p.updatedAt = new Date().toLocaleString();
+            saveDB();
+            showToast('파트너 메모가 저장되었습니다.');
+        }
+
+        function deletePartner(partnerId) {
+            if(!currentUser || currentUser.role !== 'SUPER_ADMIN') { alert('최고관리자만 가능합니다.'); return; }
+            if(partnerId === 'partner') { alert('기본 파트너는 삭제 대신 정지할 수 있습니다.'); return; }
+            const p = getPartnerById(partnerId);
+            if(!p) return;
+            const users = db.users.filter(u => String(u.partnerId) === String(partnerId)).length;
+            const apps = db.applications.filter(a => String(a.partnerId) === String(partnerId)).length;
+            const ok = confirm(`${p.name} 파트너를 삭제 처리할까요?\n관련 회원 ${users}명, 신청 ${apps}건은 감사 기록 보존을 위해 삭제하지 않고 기본 파트너로 이관됩니다.`);
+            if(!ok) return;
+            db.users.forEach(u => { if(String(u.partnerId) === String(partnerId)) { u.partnerId = 'partner'; u.partner = getPartnerName('partner'); } });
+            db.applications.forEach(a => { if(String(a.partnerId) === String(partnerId)) a.partnerId = 'partner'; });
+            p.status = 'DELETED';
+            p.deletedAt = new Date().toLocaleString();
+            saveDB();
+            renderDashboard();
+            showToast('파트너가 삭제 처리되었습니다. 기록은 보존되고 기본 파트너로 이관되었습니다.');
+        }
+
+        function updateMemberStatus(userId, status) {
+            const user = db.users.find(u => String(u.id) === String(userId));
+            if(!user) return;
+
+            user.memberStatus = status;
+            user.memberStatusUpdatedAt = new Date().toLocaleString();
+
+            const message = status === 'APPROVED'
+                ? `${user.name}님, 회원가입 신청이 승인되었습니다. 이제 매수·매도 신청을 진행할 수 있습니다.`
+                : `${user.name}님, 회원가입 신청이 거절되었습니다. 관리자에게 문의해 주세요.`;
+
+            db.notifications.push({
+                id: Date.now(),
+                customerId: user.id,
+                userId: user.id,
+                status,
+                message,
+                createdAt: new Date().toLocaleString(),
+                read: false,
+                type: 'MEMBER'
+            });
+
+            saveDB();
+            renderDashboard();
+            renderCustomerNotifications();
+            showToast(`[회원 알림 저장 완료] ${status === 'APPROVED' ? '회원가입 승인' : '회원가입 거절'} 안내가 고객 화면에 표시됩니다.`);
+        }
+
+        function updateStatus(appId, status, btn = null) {
+            const app = db.applications.find(a => a.id == appId);
+            if (!app) return;
+
+            const actionLabel = status === 'APPROVED' ? '승인' : '거절';
+            const tradeLabel = app.tradeLabel || (app.tradeType === 'sell' ? '매도' : '매수');
+
+            // 모바일 터치 피드백: 버튼이 눌렸다는 것을 즉시 보여줌
+            if (btn) {
+                btn.classList.add('processing');
+                btn.innerText = '처리중...';
+                const row = btn.closest('tr');
+                if (row) row.style.background = status === 'APPROVED' ? 'rgba(34,197,94,0.10)' : 'rgba(239,68,68,0.10)';
+            }
+            if (navigator.vibrate) navigator.vibrate(35);
+            showToast(`${tradeLabel} 신청 ${actionLabel} 처리중...`);
+
+            setTimeout(() => {
+                app.status = status;
+                app.updatedAt = new Date().toLocaleString();
+
+                const walletText = app.wallet
+                    ? `${app.wallet.substring(0, 8)}...${app.wallet.slice(-6)}`
+                    : '제출하신 지갑주소';
+
+                const message = status === 'APPROVED'
+                    ? `${app.name}님, ${app.amount} USDT ${tradeLabel} 신청이 승인되었습니다. 고객님이 제출하신 지갑주소로 요청하신 코인을 보내드립니다. 지갑주소: ${walletText}`
+                    : `${app.name}님, ${app.amount} USDT ${tradeLabel} 신청이 거절되었습니다. 관리자에게 문의해 주세요.`;
+
+                db.notifications.push({
+                    id: Date.now(),
+                    customerId: app.customerId || app.id,
+                    appId: app.id,
+                    status,
+                    message,
+                    createdAt: new Date().toLocaleString(),
+                    read: false,
+                    type: 'APPLICATION'
+                });
+
+                saveDB();
+
+                if (btn) {
+                    btn.classList.remove('processing');
+                    btn.classList.add(status === 'APPROVED' ? 'done-approved' : 'done-rejected');
+                    btn.innerText = actionLabel + ' 완료';
+                }
+
+                renderDashboard();
+                renderCustomerNotifications();
+                showToast(`[고객 알림 전송 완료] ${tradeLabel} 신청 ${actionLabel} 안내가 고객 화면에 표시됩니다.`);
+                if (navigator.vibrate) navigator.vibrate([35, 40, 35]);
+            }, 450);
+        }
+
+        function renderCustomerNotifications() {
+            const area = document.getElementById('customer-notification-area');
+            if(!area) return;
+            if(!currentCustomerId || currentUser) { area.classList.add('hidden'); area.innerHTML = ''; return; }
+            const list = db.notifications.filter(n => String(n.customerId) === String(currentCustomerId)).slice(-3).reverse();
+            if(list.length === 0) { area.classList.add('hidden'); area.innerHTML = ''; return; }
+            area.classList.remove('hidden');
+            area.innerHTML = list.map(n => {
+                const isApproved = n.status === 'APPROVED';
+                const isRejected = n.status === 'REJECTED';
+                const title = isApproved ? '✅ 승인 알림' : isRejected ? '❌ 거절 알림' : '📩 신청 접수';
+                const colorClass = isApproved ? 'text-green-500' : isRejected ? 'text-red-500' : 'text-blue-500';
+                return `
+                <div class="notification-card ${isRejected ? 'rejected' : ''} p-4 rounded-xl mb-3 shadow-xl">
+                    <div class="flex justify-between items-start gap-4">
+                        <div>
+                            <p class="font-semibold ${colorClass}">${title}</p>
+                            <p class="text-sm text-slate-700 mt-1">${escapeHTML(n.message)}</p>
+                            <p class="text-xs text-slate-500 mt-2">${n.createdAt}</p>
+                        </div>
+                        <button type="button" onclick="dismissNotification('${n.id}')" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1 rounded text-xs font-medium">확인</button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function dismissNotification(notificationId) {
+            db.notifications = db.notifications.filter(n => String(n.id) !== String(notificationId));
+            saveDB();
+            renderCustomerNotifications();
+        }
+
+        function getApplicationProfit(app) {
+            const amount = parseFloat(app.amount) || 0;
+            let adjust = parseFloat(app.rateAdjust);
+            if (Number.isNaN(adjust)) {
+                adjust = app.tradeType === 'sell' ? (parseFloat(db.rates.sellAdjust) || 0) : (parseFloat(db.rates.buyAdjust) || 0);
+            }
+            return {
+                amount,
+                adjust,
+                profit: amount * Math.abs(adjust)
+            };
+        }
+
+        function renderRevenue() {
+            const log = document.getElementById('revenue-log');
+            const totalEl = document.getElementById('total-revenue');
+            const buyTotalEl = document.getElementById('buy-revenue-total');
+            const sellTotalEl = document.getElementById('sell-revenue-total');
+            if(!log || !totalEl) return;
+
+            log.innerHTML = '';
+            let total = 0;
+            let buyTotal = 0;
+            let sellTotal = 0;
+
+            const revenueApps = db.applications.filter(app => canViewPartnerData(app.partnerId || getUserPartnerId(app.customerId)));
+            if(revenueApps.length === 0) {
+                log.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500 font-bold">아직 수익 계산할 신청이 없습니다.</td></tr>`;
+                totalEl.innerText = '0';
+                if(buyTotalEl) buyTotalEl.innerText = '0';
+                if(sellTotalEl) sellTotalEl.innerText = '0';
+                return;
+            }
+
+            revenueApps.slice().reverse().forEach(app => {
+                const calc = getApplicationProfit(app);
+                total += calc.profit;
+                if(app.tradeType === 'sell') sellTotal += calc.profit;
+                else buyTotal += calc.profit;
+
+                const tradeLabel = app.tradeLabel || (app.tradeType === 'sell' ? '매도' : '매수');
+                const tradeClass = app.tradeType === 'sell' ? 'bg-red-500/10 text-red-500' : 'bg-blue-500/10 text-blue-600';
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition';
+                tr.innerHTML = `
+                    <td class="p-4 text-xs text-slate-500 font-semibold">${app.createdAt || '-'}</td>
+                    <td class="p-4 font-bold text-slate-900">${app.name || '-'}</td>
+                    <td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold ${tradeClass}">${tradeLabel}</span></td>
+                    <td class="p-4 text-right font-bold text-slate-900">${calc.amount.toLocaleString()} USDT</td>
+                    <td class="p-4 text-right font-bold text-slate-900">${calc.adjust.toLocaleString()} KRW</td>
+                    <td class="p-4 text-right font-black text-green-600">+${Math.round(calc.profit).toLocaleString()} KRW</td>
+                    <td class="p-4 text-xs text-slate-500 font-bold">${app.status || 'PENDING'}</td>
+                `;
+                log.appendChild(tr);
+            });
+
+            totalEl.innerText = Math.round(total).toLocaleString();
+            if(buyTotalEl) buyTotalEl.innerText = Math.round(buyTotal).toLocaleString();
+            if(sellTotalEl) sellTotalEl.innerText = Math.round(sellTotal).toLocaleString();
+        }
+
+        showView('home');
+        setTradeType('buy');
+    </script>
+</body>
+</html>
